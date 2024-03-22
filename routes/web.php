@@ -23,5 +23,5 @@ Route::get("/qlsach/thongtinsach","App\Http\Controllers\BookController@laythongt
 Route::get("chucnang2","App\Http\Controllers\BookController@chucnang2");
 
 Route::get("/chucnang1", "App\Http\Controllers\ViDuController@chucnang1");
-Route::get("/chucnang6", "App\Http\Controllers\ViDuController@chucnang6");
+Route::get("/chucnang2", "App\Http\Controllers\ViDuController@chucnang2");
 
