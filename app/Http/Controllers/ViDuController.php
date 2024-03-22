@@ -15,4 +15,7 @@ class ViDuController extends Controller
     function chucnang1(){
       echo "ĐẶNG QUỐC VIỆT";
     }
+    function chucnang6 (){
+      echo "sfsdfsd";
+    }
 }
