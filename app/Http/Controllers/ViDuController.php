@@ -21,4 +21,7 @@ class ViDuController extends Controller
     function chucnang5 (){
       echo "DAV";
     }
+    function chucnang7 (){
+      echo "DAV";
+    }
 }
