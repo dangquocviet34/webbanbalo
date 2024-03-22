@@ -26,3 +26,4 @@ Route::get("/chucnang1", "App\Http\Controllers\ViDuController@chucnang1");
 Route::get("/chucnang2", "App\Http\Controllers\ViDuController@chucnang2");
 Route::get("/chucnang3", "App\Http\Controllers\ViDuController@chucnang2");
 
+Route::get("/chucnang5", "App\Http\Controllers\ViDuController@chucnang5");
