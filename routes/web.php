@@ -20,5 +20,5 @@ Route::get('/', function () {
 
 
 
-Route::get('/trangchu','App\Http\Controllers\UserController@index')
+Route::get('/','App\Http\Controllers\UserController@index')
 ->name('index');
