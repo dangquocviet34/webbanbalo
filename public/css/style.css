@@ -905,7 +905,7 @@ textarea.input {
 }
 
 .product.product-single .product-thumb>img {
-  width: 100%;
+  width: 300px;
 }
 
 .product.product-single .product-thumb:after {
@@ -991,6 +991,9 @@ textarea.input {
 .product.product-single:hover .product-btns {
   opacity: 1;
   visibility: visible;
+}
+.product.product-single.special .product-thumb>img {
+  width: 250px;
 }
 
 /*-- hot product --*/
