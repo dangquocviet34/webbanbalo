@@ -17,17 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/vidu1","App\Http\Controllers\ViDuController@vidu");
-Route::get("/qlsach/theloai","App\Http\Controllers\BookController@laythongtintheloai");
-Route::get("/qlsach/thongtinsach","App\Http\Controllers\BookController@laythongtinsach");
-Route::get("chucnang2","App\Http\Controllers\BookController@chucnang2");
-
-Route::get("/chucnang1", "App\Http\Controllers\ViDuController@chucnang1");
-Route::get("/chucnang2", "App\Http\Controllers\ViDuController@chucnang2");
-Route::get("/chucnang3", "App\Http\Controllers\ViDuController@chucnang3");
 
 
-Route::get("/chucnang5", "App\Http\Controllers\ViDuController@chucnang5");
 
-Route::get("/chucnang4", "App\Http\Controllers\ViDuController@chucnang4");
-
+Route::get('/trangchu','App\Http\Controllers\UserController@index')
+->name('index');
