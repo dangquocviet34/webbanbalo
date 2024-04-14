@@ -385,6 +385,12 @@ textarea.input {
   border: none;
 }
 
+.header-admin-dashboard {
+    display: inline-block;
+    padding: 15px 0px;
+    max-width: 400px;
+  }
+
 /*----------------------------*\
 	Account header
 \*----------------------------*/

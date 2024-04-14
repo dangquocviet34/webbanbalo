@@ -20,5 +20,14 @@ Route::get('/', function () {
 
 
 
+
+
+Route::get('/admin', function () { return redirect('/admin/dashboard'); });
+Route::get('/admin/dashboard','App\Http\Controllers\AdminController@dashboard')->name('admin.dashboard');
+Route::get('/admin/products', 'App\Http\Controllers\AdminController@products')->name('admin.products');
+Route::get('/admin/accounts', 'App\Http\Controllers\AdminController@accounts')->name('admin.accounts');
+Route::get('/admin/roles', 'App\Http\Controllers\AdminController@roles')->name('admin.roles');
+
 Route::get('/','App\Http\Controllers\UserController@index')
 ->name('index');
+
