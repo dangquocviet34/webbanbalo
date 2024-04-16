@@ -17,11 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-
-
-
 Route::get('/admin', function () { return redirect('/admin/dashboard'); });
 Route::get('/admin/dashboard','App\Http\Controllers\AdminController@dashboard')->name('admin.dashboard');
 Route::get('/admin/products', 'App\Http\Controllers\AdminController@products')->name('admin.products');

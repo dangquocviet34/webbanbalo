@@ -29,7 +29,7 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    
+
 
 </head>
 
@@ -60,7 +60,7 @@
 
                     <!-- Name Header -->
                     <div class="header-admin-dashboard">
-                        <h2>{{$title}}</h2>
+                        <h2>{{ $title }}</h2>
                     </div>
                     <!-- /Name Header -->
                 </div>
@@ -77,13 +77,11 @@
                             <strong><i class="fa fa-diamond"></i></strong> <a href="#"
                                 class="text-uppercase">Administrator</a>
                             <ul class="custom-menu">
-                                <li><a href="{{url('account')}}"><i class="fa fa-user-o"></i>My Account</a></li>
-                                <li><a href="{{url('logout')}}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
-                                <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                                <li><a href="{{ url('account') }}"><i class="fa fa-user-o"></i>My Account</a></li>
+                                <li><a href="{{ url('/') }}"><i class="fa fa-sign-out"></i>Exit Dashboard</a></li>
+                                <li><a href="{{ url('logout') }}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
@@ -104,11 +102,61 @@
                     <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                     <ul class="menu-list">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                        <<li><a href="{{ url('/') }}">Home</a></li>
-                            <li><a href="{{ url('admin/products') }}">Products</a></li>
-                            <li><a href="{{ url('admin/accounts') }}">User Accounts</a></li>
-                            <li><a href="{{ url('admin/roles') }}">Roles & Permissions</a></li>
-                            <li><a href="{{ url('logout') }}">Logout</a></li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Statistics <i class="fa fa-caret-down"></i></a>
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Statistics & Reports</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/statistics') }}">Statistics</a></li>
+                                    <li><a href="{{ url('admin/reports') }}">Reports</a></li>
+                                    <li><a href="{{ url('admin/import') }}">Import</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ url('admin/products') }}">Products</a></li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Users <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">User Accounts</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/accounts') }}">Administrators</a></li>
+                                    <li><a href="{{ url('admin/moderators') }}">Moderators</a></li>
+                                    <li><a href="{{ url('admin/customers') }}">Customers</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Promo <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Promo & Coupon</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/promotions') }}">Promotions</a></li>
+                                    <li><a href="{{ url('admin/coupons') }}">Coupons</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Roles <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Roles & Permissions</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/roles') }}">Roles</a></li>
+                                    <li><a href="{{ url('admin/permissions') }}">Permission</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ url('/admin/settings') }}">Settings</a></li>
 
                     </ul>
 
@@ -169,86 +217,104 @@
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Include jQuery UI -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    
 
-    
+
+
     <script type="text/javascript">
-    $( function() {
-        $( "#datepicker" ).datepicker({
-            dateFormat: "yy-mm-dd" // Định dạng ngày
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd" // Định dạng ngày
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "yy-mm-dd" // Định dạng ngày
+            });
         });
-        $( "#datepicker2" ).datepicker({
-            dateFormat: "yy-mm-dd" // Định dạng ngày
-        });
-    } );
     </script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        var chart = new Morris.Area({
-        // ID of the element in which to draw the chart.
-        element: 'myfirstchart',
-        //option chart
-        lineColors:["#blue","#red"],
-        pointFillColors:['#fffffff'],
-        fillStrokeColors:['#black'],
-        
-        hideHover:"auto",
-        parseTime:false,
-        // Chart data records -- each entry in this array corresponds to a point on
-        // the chart.
-        data: [
-            { year: '2008', value: 20 },
-            { year: '2009', value: 10 },
-            { year: '2010', value: 5 },
-            { year: '2011', value: 5 },
-            { year: '2012', value: 20 }
-        ],
-        // The name of the data record attribute that contains x-values.
-        xkey: 'year',
-        // A list of names of data record attributes that contain y-values.
-        ykeys: ['value'],
-        behaveLinkeLine: true,
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
-        labels: ['Value']
-        });
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var chart = new Morris.Area({
+                // ID of the element in which to draw the chart.
+                element: 'myfirstchart',
+                //option chart
+                lineColors: ["#blue", "#red"],
+                pointFillColors: ['#fffffff'],
+                fillStrokeColors: ['#black'],
 
-
-                
-
-        $('#btn-dashboard-filter').click(function(){
-            // alert("oke đã nhận");g
-            var _token = $('input[name="_token"]').val();
-            var from_date = $('#datepicker').val();
-            var to_date = $('#datepicker2').val();
-            // alert(from_date);
-            // alert(to_date);
-            $.ajax({
-                url:"{{url('/admin/dashboard/filter-by-date')}}",
-                method: "POST",
-                dataType:"JSON",
-                data:{from_date:from_date, to_date:to_date, _token:_token},
-                
-                success:function(data)
+                hideHover: "auto",
+                parseTime: false,
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: [{
+                        year: '2008',
+                        value: 20
+                    },
                     {
+                        year: '2009',
+                        value: 10
+                    },
+                    {
+                        year: '2010',
+                        value: 5
+                    },
+                    {
+                        year: '2011',
+                        value: 5
+                    },
+                    {
+                        year: '2012',
+                        value: 20
+                    }
+                ],
+                // The name of the data record attribute that contains x-values.
+                xkey: 'year',
+                // A list of names of data record attributes that contain y-values.
+                ykeys: ['value'],
+                behaveLinkeLine: true,
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['Value']
+            });
+
+
+
+
+            $('#btn-dashboard-filter').click(function() {
+                // alert("oke đã nhận");g
+                var _token = $('input[name="_token"]').val();
+                var from_date = $('#datepicker').val();
+                var to_date = $('#datepicker2').val();
+                // alert(from_date);
+                // alert(to_date);
+                $.ajax({
+                    url: "{{ url('/admin/dashboard/filter-by-date') }}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date,
+                        _token: _token
+                    },
+
+                    success: function(data) {
                         chart.setData(data);
                     }
 
+                });
             });
-        });
-        
 
-        
-        
-    } );
-</script>
-    
+
+
+
+        });
+    </script>
+
 
 </body>
 
