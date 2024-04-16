@@ -31,6 +31,6 @@ Route::get('/admin/dashboard/filter-by-date','App\Http\Controllers\AdminControll
 
 
 
-Route::get('/','App\Http\Controllers\UserController@index')
+Route::get('/','App\Http\Controllers\Controller@index')
 ->name('index');
 
