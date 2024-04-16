@@ -28,6 +28,8 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    
 
 </head>
 
@@ -164,6 +166,89 @@
     <script src="{{ url('/js/nouislider.min.js') }}"></script>
     <script src="{{ url('/js/jquery.zoom.min.js') }}"></script>
     <script src="{{ url('/js/main.js') }}"></script>
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include jQuery UI -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    
+
+    
+    <script type="text/javascript">
+    $( function() {
+        $( "#datepicker" ).datepicker({
+            dateFormat: "yy-mm-dd" // Định dạng ngày
+        });
+        $( "#datepicker2" ).datepicker({
+            dateFormat: "yy-mm-dd" // Định dạng ngày
+        });
+    } );
+    </script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var chart = new Morris.Area({
+        // ID of the element in which to draw the chart.
+        element: 'myfirstchart',
+        //option chart
+        lineColors:["#blue","#red"],
+        pointFillColors:['#fffffff'],
+        fillStrokeColors:['#black'],
+        
+        hideHover:"auto",
+        parseTime:false,
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: [
+            { year: '2008', value: 20 },
+            { year: '2009', value: 10 },
+            { year: '2010', value: 5 },
+            { year: '2011', value: 5 },
+            { year: '2012', value: 20 }
+        ],
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['value'],
+        behaveLinkeLine: true,
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Value']
+        });
+
+
+                
+
+        $('#btn-dashboard-filter').click(function(){
+            // alert("oke đã nhận");g
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            // alert(from_date);
+            // alert(to_date);
+            $.ajax({
+                url:"{{url('/admin/dashboard/filter-by-date')}}",
+                method: "POST",
+                dataType:"JSON",
+                data:{from_date:from_date, to_date:to_date, _token:_token},
+                
+                success:function(data)
+                    {
+                        chart.setData(data);
+                    }
+
+            });
+        });
+        
+
+        
+        
+    } );
+</script>
+    
 
 </body>
 
