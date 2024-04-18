@@ -1,10 +1,11 @@
-<x-admin-layout>
+<x-admin-layout >
     <x-slot name='title'>
-        Dashboard
+         Promotions & Coupons
     </x-slot>
 
     <div>
-        <h1>This is product dashboard.</h1>
+        <h1>Promotions </h1>
     </div>
 
 </x-admin-layout>
+
