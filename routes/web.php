@@ -33,4 +33,5 @@ Route::get('/admin/dashboard/filter-by-date','App\Http\Controllers\AdminControll
 
 Route::get('/','App\Http\Controllers\Controller@index')
 ->name('index');
-
+Route::get('/users/theloai/{id_sub}', 'App\Http\Controllers\Controller@index1');
+Route::get('/users/chitiet/{id_sp}', 'App\Http\Controllers\Controller@chitiet');
