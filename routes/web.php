@@ -29,5 +29,5 @@ Route::get("/chucnang3", "App\Http\Controllers\ViDuController@chucnang3");
 
 Route::get("/chucnang5", "App\Http\Controllers\ViDuController@chucnang5");
 
-Route::get("/chucnang4", "App\Http\Controllers\ViDuController@chucnang4");
+Route::get("/sendmail", "App\Http\Controllers\ViDuController@SendMail");
 
