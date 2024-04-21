@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -24,15 +26,38 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
+
+    <!-- Bao gồm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bao gồm jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- Bao gồm Raphael -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+    <!-- Bao gồm Morris.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
+
+   
+   
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
 
-</head>
 
+</head>
 <body>
     <!-- HEADER -->
     <header>
@@ -54,6 +79,7 @@
                     <div class="header-logo">
                         <a class="logo" href="{{ url('/admin/dashboard') }}">
                             <img src="{{ url('/images/logo.png') }}" alt="logo">
+                            
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -173,7 +199,7 @@
         <!-- container -->
         <div class="container">
             <!-- row -->
-            <div class="row">
+            <div class="row" wi>
                 {{ $slot }}
             </div>
         </div>
@@ -206,116 +232,5 @@
         <!-- /container -->
     </footer>
     <!-- /FOOTER -->
-
-    <!-- jQuery Plugins -->
-    <script src="{{ url('/js/jquery.min.js') }}"></script>
-    <script src="{{ url('/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url('/js/slick.min.js') }}"></script>
-    <script src="{{ url('/js/nouislider.min.js') }}"></script>
-    <script src="{{ url('/js/jquery.zoom.min.js') }}"></script>
-    <script src="{{ url('/js/main.js') }}"></script>
-    <!-- Include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Include jQuery UI -->
-    <link rel="stylesheet"
-        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-
-
-
-    <script type="text/javascript">
-        $(function() {
-            $("#datepicker").datepicker({
-                dateFormat: "yy-mm-dd" // Định dạng ngày
-            });
-            $("#datepicker2").datepicker({
-                dateFormat: "yy-mm-dd" // Định dạng ngày
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var chart = new Morris.Area({
-                // ID of the element in which to draw the chart.
-                element: 'myfirstchart',
-                //option chart
-                lineColors: ["#blue", "#red"],
-                pointFillColors: ['#fffffff'],
-                fillStrokeColors: ['#black'],
-
-                hideHover: "auto",
-                parseTime: false,
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: [{
-                        year: '2008',
-                        value: 20
-                    },
-                    {
-                        year: '2009',
-                        value: 10
-                    },
-                    {
-                        year: '2010',
-                        value: 5
-                    },
-                    {
-                        year: '2011',
-                        value: 5
-                    },
-                    {
-                        year: '2012',
-                        value: 20
-                    }
-                ],
-                // The name of the data record attribute that contains x-values.
-                xkey: 'year',
-                // A list of names of data record attributes that contain y-values.
-                ykeys: ['value'],
-                behaveLinkeLine: true,
-                // Labels for the ykeys -- will be displayed when you hover over the
-                // chart.
-                labels: ['Value']
-            });
-
-
-
-
-            $('#btn-dashboard-filter').click(function() {
-                // alert("oke đã nhận");g
-                var _token = $('input[name="_token"]').val();
-                var from_date = $('#datepicker').val();
-                var to_date = $('#datepicker2').val();
-                // alert(from_date);
-                // alert(to_date);
-                $.ajax({
-                    url: "{{ url('/admin/dashboard/filter-by-date') }}",
-                    method: "POST",
-                    dataType: "JSON",
-                    data: {
-                        from_date: from_date,
-                        to_date: to_date,
-                        _token: _token
-                    },
-
-                    success: function(data) {
-                        chart.setData(data);
-                    }
-
-                });
-            });
-
-
-
-
-        });
-    </script>
-
-
-</body>
 
 </html>
