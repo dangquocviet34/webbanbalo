@@ -75,14 +75,25 @@ class AdminController extends Controller
     {
         return view("admin.statistics");
     }
-    public function filter_by_date(Request $request)
-    {
+     //Lọc đơn hàng theo ngày
+     public function filter_by_date(Request $request){
         $data = $request->all();
         $from_date = $data['from_date'];
         $to_date = $data['to_date'];
-
-       
-
+    
+        $get = DB::select("SELECT DATE(Ngay_dat_hang) as order_date, SUM(amount) as total_revenue, SUM(slspdh) as soluong, COUNT(id) as total_order FROM `donhang`
+            WHERE Ngay_dat_hang BETWEEN ? AND ?
+                 AND donhang.status <> ?
+            GROUP BY date(Ngay_dat_hang)
+            ORDER BY date(Ngay_dat_hang) ASC",[$from_date, $to_date,0]);
+    
+        $chart_data = [];
+        foreach($get as $key => $val){
+            $chart_data[] = array(
+                'period' => $val->order_date,
+                'order' => $val->total_order,
+                'revenue'=> $val->total_revenue,
+                'quantily'=> $val->soluong,
             );
         }
         
@@ -137,6 +148,57 @@ class AdminController extends Controller
         $fileName = 'Soluongdonhang_' . date('YmdHis') . '.xlsx';
         $writer->save($fileName);
 
+        return response()->download($fileName)->deleteFileAfterSend(true);
+    }
+    //Xuất hóa đơn
+    public function exportPDF(Request $request)
+    {
+        $id = $request->id;
+
+        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `user` as KH 
+        ON DH.id_user = KH.id
+        WHERE DH.id = ?",[$id]);
+    
+       
+       
+         $datasanpham = DB::select("SELECT DH.id, DH.amount,P.tensp, P.mausac, P.sizess,  P.discount_total, 
+        CT.chitiet_tonggia as thanh_tien, CT.chitiet_soluong as soluong
+        FROM donhang as Dh 
+        JOIN chitietdonhang as CT ON DH.id = CT.id_donhang 
+        JOIN sanpham as P ON CT.id_sp = P.id_sanpham 
+        WHERE DH.id = ?
+        GROUP BY DH.id, DH.amount,P.tensp, P.mausac, P.sizess,  CT.chitiet_tonggia,P.discount_total,  CT.chitiet_soluong", [$id]);
+
+
+        $pdf = PDF::loadView('pdf.hoadon', compact("dataKH","datasanpham"));
+       
+        return $pdf->download('hoadon.pdf');
+        // return view("pdf.hoadon", compact("dataKH","datasanpham"));
+
+    }
+
+    public function chitietdonhang(Request $request){
+        $id = $request->id;
+
+        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `user` as KH 
+        ON DH.id_user = KH.id
+        WHERE DH.id = ?",[$id]);
+
+        $datasanpham = DB::select("SELECT DH.id, DH.amount,P.tensp, P.mausac, P.sizess, P.image_sp,  
+        CT.chitiet_tonggia as thanh_tien, CT.chitiet_soluong as soluong
+        FROM donhang as Dh 
+        JOIN chitietdonhang as CT ON DH.id = CT.id_donhang 
+        JOIN sanpham as P ON CT.id_sp = P.id_sanpham 
+        WHERE DH.id = ?
+        GROUP BY DH.id, DH.amount,P.tensp, P.mausac, P.sizess, P.image_sp,  CT.chitiet_tonggia, CT.chitiet_soluong", [$id]);
+
+
+
+        // dd($id, $dataKH, $datasanpham);
+        return view("admin.chitietdonhang", compact("dataKH","datasanpham","id"));
+
+
+    }
 
     public function products()
     {

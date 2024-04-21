@@ -10,9 +10,7 @@
                 font-size: 50px;
                 font-weight: bold;
             }
-            p {
-                
-            }
+            
         </style>
         <div class="row">
             <p class="title_thongke">Thống kê đơn hàng doanh số</p>
