@@ -31,6 +31,7 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
+
     <!-- Bao gồm Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
@@ -51,6 +52,11 @@
 
    
    
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+
+
 </head>
 <body>
     <!-- HEADER -->
@@ -80,7 +86,7 @@
 
                     <!-- Name Header -->
                     <div class="header-admin-dashboard">
-                        <h2>{{$title}}</h2>
+                        <h2>{{ $title }}</h2>
                     </div>
                     <!-- /Name Header -->
                 </div>
@@ -97,13 +103,11 @@
                             <strong><i class="fa fa-diamond"></i></strong> <a href="#"
                                 class="text-uppercase">Administrator</a>
                             <ul class="custom-menu">
-                                <li><a href="{{url('account')}}"><i class="fa fa-user-o"></i>My Account</a></li>
-                                <li><a href="{{url('logout')}}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
-                                <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                                <li><a href="{{ url('account') }}"><i class="fa fa-user-o"></i>My Account</a></li>
+                                <li><a href="{{ url('/') }}"><i class="fa fa-sign-out"></i>Exit Dashboard</a></li>
+                                <li><a href="{{ url('logout') }}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
@@ -124,11 +128,61 @@
                     <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                     <ul class="menu-list">
                         <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                        <<li><a href="{{ url('/') }}">Home</a></li>
-                            <li><a href="{{ url('admin/products') }}">Products</a></li>
-                            <li><a href="{{ url('admin/accounts') }}">User Accounts</a></li>
-                            <li><a href="{{ url('admin/roles') }}">Roles & Permissions</a></li>
-                            <li><a href="{{ url('logout') }}">Logout</a></li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Statistics <i class="fa fa-caret-down"></i></a>
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Statistics & Reports</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/statistics') }}">Statistics</a></li>
+                                    <li><a href="{{ url('admin/reports') }}">Reports</a></li>
+                                    <li><a href="{{ url('admin/import') }}">Import</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ url('admin/products') }}">Products</a></li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Users <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">User Accounts</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/accounts') }}">Administrators</a></li>
+                                    <li><a href="{{ url('admin/moderators') }}">Moderators</a></li>
+                                    <li><a href="{{ url('admin/customers') }}">Customers</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Promo <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Promo & Coupon</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/promotions') }}">Promotions</a></li>
+                                    <li><a href="{{ url('admin/coupons') }}">Coupons</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="true">Roles <i class="fa fa-caret-down"></i></a>
+
+                            <div class="custom-menu">
+                                <ul class="list-links">
+                                    <li>
+                                        <h3 class="list-links-title">Roles & Permissions</h3>
+                                    </li>
+                                    <li><a href="{{ url('admin/roles') }}">Roles</a></li>
+                                    <li><a href="{{ url('admin/permissions') }}">Permission</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ url('/admin/settings') }}">Settings</a></li>
 
                     </ul>
 
