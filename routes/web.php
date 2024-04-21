@@ -13,9 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+/*Cập nhật tài khoản */
+Route::get('/accountpanel','App\Http\Controllers\AccountUserController@accountpanel')
+->middleware('auth')->name("account");
+
+Route::post('/saveaccountinfo','App\Http\Controllers\AccountUserController@saveaccountinfo')
+->middleware('auth')->name('saveinfo');
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
 
 Route::get('/admin', function () { return redirect('/admin/dashboard'); });
 Route::get('/admin/dashboard','App\Http\Controllers\AdminController@dashboard')->name('admin.dashboard');
@@ -24,6 +38,7 @@ Route::get('/admin/products', 'App\Http\Controllers\AdminController@products')->
 Route::get('/admin/promotions', 'App\Http\Controllers\AdminController@promotions')->name('admin.promotions');
 Route::get('/admin/accounts', 'App\Http\Controllers\AdminController@accounts')->name('admin.accounts');
 Route::get('/admin/roles', 'App\Http\Controllers\AdminController@roles')->name('admin.roles');
+
 
 Route::get('/admin/permissions', 'App\Http\Controllers\AdminController@permissions')->name('admin.permissions');
 Route::get('/admin/settings', 'App\Http\Controllers\AdminController@settings')->name('admin.settings');
@@ -48,6 +63,6 @@ Route::get('/admin/transactions/exportPDF/{id}','App\Http\Controllers\AdminContr
 
 
 
+
 Route::get('/','App\Http\Controllers\Controller@index')
 ->name('index');
-
