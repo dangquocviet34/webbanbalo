@@ -9,6 +9,7 @@
         </div>
         <div class="pull-right">
             <button type="button" class="btn btn-info btn-lg"><i class="fa fa-plus-square"></i> Add Role</button>
+            <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i> Add Permission</button>
         </div>
     </div>
     <table class="table">
@@ -29,9 +30,16 @@
                         <i>{{ $role->count_role_id }} members</i>
                     </td>
                     <td class="col-md-3">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-key"></i></button>
-                        <button type="button" class="btn btn-success"><i class="fa fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <form method='post' action = "{{ route('admin.role_delete') }}"
+                        onsubmit="return confirm('Do you really want to remove this role?');">
+                        <a href="{{ route('admin.permission', ['id' => $role->role_id]) }}" type="button"
+                            class="btn btn-info"><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('admin.role_edit', ['id' => $role->role_id]) }}" type="button"
+                            class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                        <input type='hidden' value='{{ $role->role_id }}' name='id'>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        {{ csrf_field() }}
+                    </form>
                     </td>
                 </tr>
             @endforeach
