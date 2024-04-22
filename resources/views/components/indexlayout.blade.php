@@ -229,7 +229,7 @@
 							$sub_menu = DB::table('sub_menu')->get();
 						@endphp
 						@foreach($sub_menu as $sub_menu)
-						<li class="dropdown side-dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{$sub_menu->name_sub}}<i class="fa fa-angle-right"></i></a>	</li>
+						<li class=""><a href="{{url('/users/theloai/'.$sub_menu->id_sub)}}"  aria-expanded="true">{{$sub_menu->name_sub}}<i class="fa fa-angle-right"></i></a>	</li>
 						@endforeach
 						
 							

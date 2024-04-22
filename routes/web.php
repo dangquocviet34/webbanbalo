@@ -66,3 +66,7 @@ Route::get('/admin/transactions/exportPDF/{id}','App\Http\Controllers\AdminContr
 
 Route::get('/','App\Http\Controllers\Controller@index')
 ->name('index');
+
+Route::get('/users/theloai/{id_sub}', 'App\Http\Controllers\Controller@index1');
+Route::get('/users/chitiet/{id_sp}', 'App\Http\Controllers\Controller@chitiet');
+
