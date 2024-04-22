@@ -74,7 +74,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6      ">
+                <td colspan="6">
                     <i> Showing 1 to {{ count($products) }} of {{ count($products) }} entries. </i>
                 </td>
             </tr>
