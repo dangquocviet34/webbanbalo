@@ -30,6 +30,17 @@
 
 	
 </head>
+<style>
+	.header-btns-container {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.header-btn {
+		display: inline-block;
+		margin-right: 10px; /* Điều chỉnh khoảng cách giữa các phần tử nút */
+	}
+</style>
 
 <body>
 	<!-- HEADER -->
@@ -101,15 +112,41 @@
 				</div>
 				<div class="pull-right">
 					<ul class="header-btns">
+						
 						<!-- Account -->
-						<li class="header-account dropdown default-dropdown">
+						<div class='col-3 p-0 d-flex justify-content-end'>
+							@auth
+								<div class="dropdown">
+									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+									{{ Auth::user()->name }}
+									</button>
+									<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{route('account')}}">Quản lý</a>
+									<form method="POST" action="{{ route('logout') }}">
+										@csrf
+										<a class="dropdown-item" onclick="event.preventDefault();
+															this.closest('form').submit();">Đăng xuất</a>
+									</form>
+									</div>
+								</div>
+							@else 
+								<a href="{{ route('login') }}">
+									<button class='btn btn-sm btn-primary'>Đăng nhập</button>
+								</a>&nbsp;
+								<a href="{{ route('register') }}">
+									<button class='btn btn-sm btn-success'>Đăng ký</button>
+								</a>
+							@endauth
+                		</div>
+						{{--<li class="header-account dropdown default-dropdown">
 							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
 								</div>
 								<strong class="text-uppercase">Tài khoản<i class="fa fa-caret-down"></i></strong>
 							</div>
-							<a href="#" class="text-uppercase">Đăng nhập</a> / <a href="#" class="text-uppercase">Đăng ký</a>
+
+							<a href="{{route('login')}}" class="text-uppercase">Đăng nhập</a> / <a href="{{route('register')}}" class="text-uppercase">Đăng ký</a>
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
@@ -117,52 +154,52 @@
 								<li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
 								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
 								<li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
-							</ul>
+							</ul> --}}
 						</li>
 						<!-- /Account -->
 
 						<!-- Cart -->
-						<li class="header-cart dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">3</span>
+					<li class="header-cart dropdown default-dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+							<div class="header-btns-icon">
+								<i class="fa fa-shopping-cart"></i>
+								<span class="qty">3</span>
+							</div>
+							<strong class="text-uppercase">Giỏ hàng:</strong>
+							<br>
+							<span>35.20$</span>
+						</a>
+						<div class="custom-menu">
+							<div id="shopping-cart">
+								<div class="shopping-cart-list">
+									<div class="product product-widget">
+										<div class="product-thumb">
+											<img src="./img/thumb-product01.jpg" alt="">
+										</div>
+										<div class="product-body">
+											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+										</div>
+										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
+									</div>
+									<div class="product product-widget">
+										<div class="product-thumb">
+											<img src="./img/thumb-product01.jpg" alt="">
+										</div>
+										<div class="product-body">
+											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+										</div>
+										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
+									</div>
 								</div>
-								<strong class="text-uppercase">Giỏ hàng:</strong>
-								<br>
-								<span>35.20$</span>
-							</a>
-							<div class="custom-menu">
-								<div id="shopping-cart">
-									<div class="shopping-cart-list">
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="./img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-										</div>
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="./img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-										</div>
-									</div>
-									<div class="shopping-cart-btns">
-										<button class="main-btn">View Cart</button>
-										<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
-									</div>
+								<div class="shopping-cart-btns">
+									<button class="main-btn">View Cart</button>
+									<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
 								</div>
 							</div>
-						</li>
+						</div>
+					</li>
 						<!-- /Cart -->
 
 						<!-- Mobile nav toggle-->
