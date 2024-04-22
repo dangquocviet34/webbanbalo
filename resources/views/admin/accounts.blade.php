@@ -8,7 +8,7 @@
             <h3> Accounts </h3>
         </div>
         <div class="pull-right">
-            <button type="button" class="btn btn-info btn-lg"><i class="fa fa-user-plus"></i> Add Account</button>
+            <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-user-plus"></i> Add Account</button>
         </div>
     </div>
     <table class="table">
@@ -42,15 +42,22 @@
                     </td>
                     <td class="col-md-1">
                         @if ($user->status)
-                            <span class="badge rounded-pill bg-light text-dark">Active</span>
+                            <span class="label label-success">Active</span>
                         @else
-                            <span class="badge rounded-pill bg-warning text-dark">Inactive</span>
+                            <span class="label label-danger">Inactive</span>
                         @endif
                     </td>
                     <td class="col-md-2">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button>
-                        <button type="button" class="btn btn-success"><i class="fa fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <form method='post' action = "{{ route('admin.account_delete') }}"
+                            onsubmit="return confirm('Do you really want to delete this account?');">
+                            <a href="{{ route('admin.account_view', ['id' => $user->id]) }}" type="button"
+                                class="btn btn-info"><i class="fa fa-eye"></i></a>
+                            <a href="{{ route('admin.account_edit', ['id' => $user->id]) }}" type="button"
+                                class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                            <input type='hidden' value='{{ $user->id }}' name='id'>
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            {{ csrf_field() }}
+                        </form>
                     </td>
                 </tr>
             @endforeach
