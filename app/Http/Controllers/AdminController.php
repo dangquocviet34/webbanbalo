@@ -49,18 +49,23 @@ class AdminController extends Controller
         
         //update địa chỉ 
         DB::update("UPDATE donhang as DH
-            JOIN (SELECT DH.id as iddonhang, U.address as address FROM donhang as DH LEFT JOIN `user` as u
+            JOIN (SELECT DH.id as iddonhang, U.address as address FROM donhang as DH LEFT JOIN `users` as u
             ON DH.id_user = U.id) as T1 ON T1.iddonhang = DH.id
             SET DH.address = T1.address");
         
         //update discount total
-        DB::update(" UPDATE sanpham AS SP
-            LEFT JOIN discount AS DC ON SP.id_sanpham = DC.id_sanpham
-            SET SP.discount_total = ROUND(
-                CASE 
-                    WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date THEN SP.price * (100 - DC.discount_value) / 100 
-                    ELSE SP.price 
-                END");
+        DB::update("
+                UPDATE sanpham AS SP
+                LEFT JOIN discount AS DC ON SP.id_sanpham = DC.id_sanpham
+                SET SP.discount_total = ROUND(
+                    CASE 
+                        WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date THEN SP.price * (100 - DC.discount_value) / 100 
+                        ELSE SP.price 
+                    END
+                )
+                WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL
+            ");
+
 
         //update chitiet_tonggia
         DB::update("UPDATE sanpham AS SP
@@ -155,7 +160,7 @@ class AdminController extends Controller
     {
         $id = $request->id;
 
-        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `user` as KH 
+        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `users` as KH 
         ON DH.id_user = KH.id
         WHERE DH.id = ?",[$id]);
     
@@ -180,7 +185,7 @@ class AdminController extends Controller
     public function chitietdonhang(Request $request){
         $id = $request->id;
 
-        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `user` as KH 
+        $dataKH = DB::select("SELECT KH.id, KH.fullname, KH.phone, KH.address, DH.Ngay_dat_hang, DH.amount, DH.id FROM donhang AS DH JOIN `users` as KH 
         ON DH.id_user = KH.id
         WHERE DH.id = ?",[$id]);
 

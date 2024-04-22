@@ -127,7 +127,7 @@
                 <div class="menu-nav">
                     <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                     <ul class="menu-list">
-                        <li><a href="{{ url('admin/dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url('admin/statistics') }}">Statistics & Reports</a></li>
                         <li><a href="{{ url('admin/products') }}">Products & Orders</a></li>
                         <li><a href="{{ url('admin/promotions') }}">Promotions</a></li>
