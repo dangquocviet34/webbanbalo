@@ -145,7 +145,7 @@
     $dataKHnew= $dataKH;
 
     @endphp
-    <a href="{{ route('download.pdf') }}?dataKHnew={{ json_encode($dataKHnew) }}&datasanphamnew={{ json_encode($datasanphamnew) }}" class="btn btn-success">Tải PDF</a>
+    <a href="{{ route('exportPDF',$id) }}?dataKHnew={{ json_encode($dataKHnew) }}&datasanphamnew={{ json_encode($datasanphamnew) }}" class="btn btn-success">Tải PDF</a>
    
 </body>
 

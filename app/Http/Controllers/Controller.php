@@ -30,4 +30,24 @@ class Controller extends BaseController
         
         return view("users.trangchu", compact("banner","discount", "grouped_discounts", "balo_Vi","sptuixach"));
     }
+    public function index1($id_sub)
+        {
+            $data = DB::select("SELECT * FROM sanpham AS SP JOIN sub_menu as S 
+            ON SP.id_sub = S.id_sub
+            WHERE S.id_sub = ?", [$id_sub]);        
+            return view("users.index1", compact("data"));
+        }
+        public function chitiet($id_sp)
+        {
+            $data = DB::select("SELECT SP.*, DC.*, ROUND(
+                CASE
+                    WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date
+                    THEN SP.price * (100-DC.discount_value)/ 100
+                    ELSE SP.price
+                END ) AS discount_total 
+        FROM sanpham AS SP	LEFT JOIN discount AS DC ON SP.id_sanpham = DC.id_sanphaM
+          WHERE SP.id_sanpham = ?",[$id_sp]);
+           
+            return view("users.chitiet", compact("data"));        
+            }
 }

@@ -192,7 +192,11 @@
 							$sub_menu = DB::table('sub_menu')->get();
 						@endphp
 						@foreach($sub_menu as $sub_menu)
-						<li class="dropdown side-dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{$sub_menu->name_sub}}<i class="fa fa-angle-right"></i></a>	</li>
+							<a href="{{url('/users/theloai/'.$sub_menu->id_sub)}}">
+							<li class="dropdown side-dropdown">
+								<a href="https://meet.google.com/cth-beqk-ros?authuser=0" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Ở đây {{$sub_menu->name_sub}}<i class="fa fa-angle-right"></i></a>	
+							</li></a>
+
 						@endforeach
 						
 							

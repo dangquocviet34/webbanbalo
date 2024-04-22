@@ -20,7 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `webbanbalo`
 --
+DROP DATABASE IF EXISTS `webbanbalo`;
 CREATE DATABASE IF NOT EXISTS `webbanbalo`;
+USE `webbanbalo`;
 -- --------------------------------------------------------
 
 --
@@ -36,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `rules` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `rules`
 --
 INSERT INTO `rules` (`id`, `type`, `description`) VALUES
 ('1', 'USERS_CREATE', 'Can Create User & List'),
@@ -73,27 +75,87 @@ INSERT INTO `rules` (`id`, `type`, `description`) VALUES
 ('32', 'RULES_DELETE', 'Can Delete Rules');
 
 --
--- Table structure for table `admin`
+-- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE IF NOT EXISTS `admin` (
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `fullname` varchar(50) NOT NULL,
-  `level` int NOT NULL,
-  `idgroup` int NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+
+INSERT INTO `roles` (`id`, `type`, `description`) VALUES
+(1, 'admin', 'Admin'),
+(2, 'moderator', 'Moderator'),
+(3, 'user', 'User');
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role_id` int NOT NULL,
+  `rule_id` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `admin`
+-- Dumping data for table `permissions`
+--
+INSERT INTO `permissions` (`id`, `role_id`, `rule_id`) VALUES
+(1, 1, 1), (2, 1, 2), (3, 1, 3), (4, 1, 4), (5, 1, 5),
+(6, 1, 6), (7, 1, 7), (8, 1, 8), (9, 1, 9), (10, 1, 10),
+(11, 1, 11), (12, 1, 12), (13, 1, 13), (14, 1, 14), (15, 1, 15),
+(16, 1, 16), (17, 1, 17), (18, 1, 18), (19, 1, 19), (20, 1, 20),
+(21, 1, 21), (22, 1, 22), (23, 1, 23), (24, 1, 24), (25, 1, 25),
+(26, 1, 26), (27, 1, 27), (28, 1, 28), (29, 1, 29), (30, 1, 30),
+(31, 1, 31), (32, 1, 32), (33, 2, 1), (34, 2, 2), (35, 2, 3),
+(36, 2, 4), (37, 2, 5), (38, 2, 6), (39, 2, 7), (40, 2, 8),
+(41, 2, 9), (42, 2, 10), (43, 2, 11), (44, 2, 12), (45, 2, 13),
+(46, 2, 14), (47, 2, 15), (48, 2, 16), (49, 2, 17), (50, 2, 18),
+(51, 2, 19), (52, 2, 20), (53, 2, 21), (54, 2, 22), (55, 2, 23),
+(56, 2, 24), (57, 2, 25), (58, 2, 26), (59, 2, 27), (60, 2, 28),
+(61, 2, 29), (62, 2, 30), (63, 2, 31), (64, 2, 32), (65, 3, 1),
+(66, 3, 2), (67, 3, 3), (68, 3, 4), (69, 3, 5), (70, 3, 6),
+(71, 3, 7), (72, 3, 8), (73, 3, 9), (74, 3, 10), (75, 3, 11),
+(76, 3, 12), (77, 3, 13), (78, 3, 14), (79, 3, 15), (80, 3, 16),
+(81, 3, 17), (82, 3, 18), (83, 3, 19), (84, 3, 20), (85, 3, 21),
+(86, 3, 22), (87, 3, 23);
+
+
+--
+-- Table structure for table `users`
 --
 
-INSERT INTO `admin` (`id`, `username`, `password`, `email`, `fullname`, `level`, `idgroup`) VALUES
-(3, 'admin123', '827ccb0eea8a706c4c34a16891f84e7b', 'admin123@gmail.com', 'Admin', 1, 1);
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `fullname` varchar(50) NOT NULL,
+  `role_id` int NOT NULL,
+  `status` boolean NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `fullname`, `role_id`, `status`) VALUES
+(1, 'admin', '', 'admin2k3@yopmail.com', '0123456789', 'Web Administator', 1, 1),
+(2, 'baoxuyen', '', 'baoxuyen1608@yopmail.com', '0365368222', 'Vo Thi Bao Xuyen', 1, 1),
+(3, 'quocviet', '', 'dangquocviet34@yopmail.com', '0987654321', 'Dang Quoc Viet', 1, 1),
+(4, 'moderator', '', 'moderator2k3@yopmail.com', '0123456289', 'Web Moderator', 2, 1),
+(5, 'user', '', 'normaluser2k3@yopmail.com', '0123456788', 'Web User', 3, 1),
+(6, 'user2', '', 'deactivateduser2k3@yopmail.com', '0123456889', 'Deactivated User', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -240,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `giaodich` (
   `user_email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `user_phone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `amount` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `payment` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `p\ayment` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `payment_info` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `message` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `created` int NOT NULL DEFAULT '0',
@@ -400,22 +462,22 @@ INSERT INTO `sub_menu` (`id_sub`, `name_sub`, `ivalid_name`, `id_catalog`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tinhthanh`
+-- Table structure for table `provinces`
 --
 
-DROP TABLE IF EXISTS `tinhthanh`;
-CREATE TABLE IF NOT EXISTS `tinhthanh` (
-  `id_tinhthanh` int NOT NULL AUTO_INCREMENT,
-  `tentinhthanh` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `loaitinh_id` int NOT NULL,
-  PRIMARY KEY (`id_tinhthanh`)
+DROP TABLE IF EXISTS `provinces`;
+CREATE TABLE IF NOT EXISTS `provinces` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `type` int NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
--- Dumping data for table `tinhthanh`
+-- Dumping data for table `provinces`
 --
 
-INSERT INTO `tinhthanh` (`id_tinhthanh`, `tentinhthanh`, `loaitinh_id`) VALUES
+INSERT INTO `provinces` (`id`, `name`, `type`) VALUES
 (119, 'Thai Binh', 2),
 (118, 'Tay Ninh', 2),
 (117, 'Son La', 2),
@@ -483,36 +545,30 @@ INSERT INTO `tinhthanh` (`id_tinhthanh`, `tentinhthanh`, `loaitinh_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `profiles`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `fullname` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `phone` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `dateofbirth` date DEFAULT NULL,
+  `gender` tinyint DEFAULT NULL,
   `address` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `created` int NOT NULL,
+  `province_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `created_at` date NOT NULL,
   `level` int DEFAULT NULL,
-  `idgroup` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `profiles`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `fullname`, `email`, `phone`, `address`, `created`, `level`, `idgroup`) VALUES
-(26, 'xuyen', '827ccb0eea8a706c4c34a16891f84e7b', 'xuyên ', 'xuyen@gmail.com', '0123456789', 'Bến Tre', 0, 3, 0),
-(25, 'test', 'e10adc3949ba59abbe56e057f20f883e', 'test', 'test@gmail.com', '0964876096', 'Hà Nội', 0, 3, 0),
-(27, 'vana', '827ccb0eea8a706c4c34a16891f84e7b', 'Nguyễn Văn A', 'nvviet124@gmail.com', '0123456789', 'Hoàng Kiếm, Hà Nội', 0, 3, 3);
-
---
--- Indexes for dumped tables
---
+INSERT INTO `profiles` (`id`, `dateofbirth`, `gender`, `address`, `province_id`, `user_id`, `created_at`, `level`) VALUES
+(1, '2003-18-04', 0, 'Thủ Đức', 124, 1, '2024-01-04', 99),
+(2, '2003-16-08', 1, 'Thạnh Phú', 73, 2, '2024-11-05', 99),
+(3, '2003-01-01', 0, 'Thủ Đức', 124, 1, '2024-01-04', 99);
 
 --
 -- Indexes for table `sanpham`
