@@ -406,6 +406,7 @@ CREATE TABLE IF NOT EXISTS `sanpham` (
   KEY `id_catalog_2` (`id_catalog`)
 ) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
+ALTER TABLE `sanpham` ADD `status` INT NOT NULL DEFAULT '1' AFTER `parent_name_sub`;
 --
 -- Dumping data for table `sanpham`
 --
