@@ -4,6 +4,11 @@
     </x-slot>
 
     <h1 class="font-weight-bold"> Products </h1>
+    @if (session('status'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="container">
         <ul class="nav justify-content-end">
             <li class="nav-item">
@@ -16,7 +21,8 @@
                 <a class="nav-link" href="#"><i class="fa fa-upload"></i> Upload</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.product.create') }} "><i class="fa fa-cart-plus"></i> Add product</a>
+                <a class="nav-link" href="{{ route('admin.product.create') }} "><i class="fa fa-cart-plus"></i> Add
+                    product</a>
             </li>
         </ul>
         <table class="table">
@@ -33,8 +39,9 @@
             <tbody>
                 @foreach ($products as $product)
                     <tr>
-                        <td class="col-md-1"></td>
-
+                        <td class="col-md-1">
+                            <img src="{{ asset('images/' . $product->image_sp) }}" width="40px" height="40px" />
+                        </td>
                         <td class="col-md-3">
                             <b>{{ $product->tensp }}</b><br>
                         </td>
@@ -75,3 +82,4 @@
         </table>
     </div>
 </x-admin-layout>
+<im

@@ -147,7 +147,7 @@
         <!-- container -->
         <div class="container">
             <!-- row -->
-            <div class="row" wi>
+            <div class="row">
                 {{ $slot }}
             </div>
         </div>
