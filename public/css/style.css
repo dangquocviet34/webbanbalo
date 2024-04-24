@@ -467,6 +467,18 @@ textarea.input {
 #shopping-cart .shopping-cart-btns>button {
   width: calc(50% - 2px);
 }
+.header-cart.dropdown {
+  visibility: visible; /* Hiển thị menu giỏ hàng */
+}
+
+#shopping-cart {
+  visibility: visible; /* Hiển thị nội dung giỏ hàng */
+}
+
+.custom-menu {
+  visibility: visible; /* Hiển thị menu custom */
+}
+
 
 /*=========================================================
 	03 -> NAVIGATION
@@ -654,6 +666,9 @@ textarea.input {
   -webkit-transform: translate(0px, 0px);
   -ms-transform: translate(0px, 0px);
   transform: translate(0px, 0px);
+}
+.header-cart.dropdown.open .custom-menu {
+  display: block; /* Hiển thị danh sách khi dropdown được kích hoạt */
 }
 
 /*-- Side Dropdown --*/

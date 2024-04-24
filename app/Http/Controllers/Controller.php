@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Validator;
+
+
+
 
 class Controller extends BaseController
 {
@@ -50,4 +58,82 @@ class Controller extends BaseController
            
             return view("users.chitiet", compact("data"));        
             }
-}
+
+    
+
+    //Giỏ hàng
+    // public function cartadd(Request $request)
+    // {
+    //     // Kiểm tra dữ liệu gửi từ form
+    //     $request->validate([
+    //         'id_sanpham' => 'required|numeric',
+    //         'num' => 'required|numeric',
+    //     ]);
+    
+    //     $id_sp = $request->id_sanpham;
+    //     $num = $request->num;
+    //     $total = 0;
+    //     $cart = [];
+    
+    //     if(session()->has('cart')) {
+    //         $cart = session()->get('cart');
+    //         if(isset($cart[$id_sp])) {
+    //             $cart[$id_sp] += $num;
+    //         } else {
+    //             $cart[$id_sp] = $num;
+    //         }
+    //     } else {
+    //         $cart[$id_sp] = $num;
+    //     }
+    
+    //     session()->put('cart', $cart);
+    //     dd($cart);
+    //     // return count($cart);
+    // }
+    
+//Nháp
+        //     public function AddCart(Request $request, $id_sp)
+        // {
+        //     $product = DB::table('sanpham')->where('id_sanpham', $id_sp)->first();
+        //     if($product!=null){
+        //         $oldCart= Session('Cart') ? Session('Cart') : null;
+        //         $newCart = new Cart($oldCart);
+        //         $newCart ->AddCart($product, $id_sp);
+        //         dd($newCart);
+
+        //         $request->session()->put('Cart', $newCart);
+        //         return view("index");
+                
+        //     }
+           
+        // }
+        public function addCart(Request $request, $id_sp)
+        {
+            // Kiểm tra session 'cart' trước khi sử dụng
+            $oldCart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
+
+            $product = DB::table('sanpham')->where('id_sanpham', $id_sp)->first();
+
+            // Kiểm tra xem truy vấn có trả về sản phẩm không
+            if ($product != null) {
+                $newCart = new Cart($oldCart);
+                $newCart->addCart($product, $id_sp);
+
+                // Cập nhật session 'cart'
+                $request->session()->put("cart", $newCart);
+
+                // Render lại view giỏ hàng và trả về HTML
+                $cartView = view('users.cart', compact("newCart"))->render();
+                
+
+                // Trả về JSON chứa HTML của giỏ hàng
+                return response()->json(['cart_html' => $cartView]);
+            } else {
+                // Xử lý trường hợp không tìm thấy sản phẩm
+                return response()->json(['error' => 'Product not found'], 404);
+            }
+        }
+
+        
+
+ }
