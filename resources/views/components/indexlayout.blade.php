@@ -28,6 +28,34 @@
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Import jQuery -->
+	<script>
+	
+    function addCart(id_sp) {
+        $.ajax({
+            url: "/users/cartadd/" + id_sp,
+            type: 'GET', // Thêm dấu phẩy ở cuối dòng này
+        }).done(function(response) {
+            //console.log(response);
+           
+				// Lấy chuỗi HTML từ phản hồi JSON
+			var cartHtml = response.cart_html;
+			// Loại bỏ các ký tự \r\n từ chuỗi HTML
+			cartHtml = cartHtml.replace(/(\r\n|\n|\r)/gm, "");
+
+
+
+			// Thay thế nội dung của phần tử có id là "shopping-cart" bằng chuỗi HTML mới
+			$("#shopping-cart1").html(cartHtml);
+        }).fail(function(xhr, status, error) {
+            console.error(error);
+        });
+    }
+
+
+
+
+</script>
 	
 </head>
 <style>
@@ -40,6 +68,44 @@
 		display: inline-block;
 		margin-right: 10px; /* Điều chỉnh khoảng cách giữa các phần tử nút */
 	}
+	/* CSS cho dropdown menu */
+	.category-nav {
+            position: relative;
+        }
+
+        .category-header {
+            cursor: pointer;
+        }
+
+        .category-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-list li {
+            padding: 10px;
+        }
+
+        .category-list li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .category-list li a:hover {
+            background-color: #f4f4f4;
+        }
+
+        .category-nav:hover .category-list {
+            display: block;
+        }
+
 </style>
 
 <body>
@@ -83,8 +149,8 @@
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="#">
-							<img src="./images/logo.png" alt="">
+						<a class="logo" href="{{route('index')}}">
+							<img src="{{ asset('/images/logo.png') }}" alt="">
 						</a>
 					</div>
 					<!-- /Logo -->
@@ -157,10 +223,14 @@
 							</ul> --}}
 						</li>
 						<!-- /Account -->
+						<!--  -->
+						
 
 						<!-- Cart -->
+						
+						
 					<li class="header-cart dropdown default-dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+						<a class="dropdown-toggle" data-toggle="dropdown" >
 							<div class="header-btns-icon">
 								<i class="fa fa-shopping-cart"></i>
 								<span class="qty">3</span>
@@ -169,8 +239,9 @@
 							<br>
 							<span>35.20$</span>
 						</a>
+						
 						<div class="custom-menu">
-							<div id="shopping-cart">
+							<div id="shopping-cart1">
 								<div class="shopping-cart-list">
 									<div class="product product-widget">
 										<div class="product-thumb">
@@ -193,6 +264,8 @@
 										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
 									</div>
 								</div>
+								
+
 								<div class="shopping-cart-btns">
 									<button class="main-btn">View Cart</button>
 									<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
@@ -200,7 +273,11 @@
 							</div>
 						</div>
 					</li>
+					
 						<!-- /Cart -->
+						
+
+
 
 						<!-- Mobile nav toggle-->
 						<li class="nav-toggle">
@@ -223,18 +300,17 @@
 			<div id="responsive-nav">
 				<!-- category nav -->
 				<div class="category-nav">
-					<span class="category-header">Categories <i class="fa fa-list"></i></span>
-					<ul class="category-list">
-						@php
-							$sub_menu = DB::table('sub_menu')->get();
-						@endphp
-						@foreach($sub_menu as $sub_menu)
-						<li class=""><a href="{{url('/users/theloai/'.$sub_menu->id_sub)}}"  aria-expanded="true">{{$sub_menu->name_sub}}<i class="fa fa-angle-right"></i></a>	</li>
-						@endforeach
-						
-							
-					</ul>
-				</div>
+                <span class="category-header">Categories <i class="fa fa-list"></i></span>
+                <ul class="category-list">
+                    @php
+                        $sub_menu = DB::table('sub_menu')->get();
+                    @endphp
+                    @foreach($sub_menu as $sub_menu)
+                        <li><a href="{{url('/users/theloai/'.$sub_menu->id_sub)}}" aria-expanded="true">{{$sub_menu->name_sub}}  <i class="fa fa-angle-right"></i></a></li>
+                    @endforeach
+					<li><a href="#" aria-expanded="true">Tất cả  <i class="fa fa-angle-right"></i></a></li>
+                </ul>
+           	 </div>
 				<!-- /category nav -->
 
 				<!-- menu nav -->
@@ -399,9 +475,9 @@
 		<!-- /container -->
 	</div>
 	<!-- /NAVIGATION -->
-
+	<div class="row">
 	{{$slot}}
-
+	</div>
 	<!-- FOOTER -->
 	<footer id="footer" class="section section-grey">
 		<!-- container -->
@@ -508,10 +584,16 @@
 	<script src="js/nouislider.min.js"></script>
 	<script src="js/jquery.zoom.min.js"></script>
 	<script src="js/main.js"></script>
+	
+	
+
+
+
 
 </body>
+
+	
 
 </html>
 
     <!-- Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less. - Marie Curie -->
-</div>

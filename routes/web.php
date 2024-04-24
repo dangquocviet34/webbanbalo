@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,10 +64,16 @@ Route::get('/admin/transactions/exportPDF/{id}','App\Http\Controllers\AdminContr
 
 
 
-
+//Khách hàng
 Route::get('/','App\Http\Controllers\Controller@index')
 ->name('index');
 
 Route::get('/users/theloai/{id_sub}', 'App\Http\Controllers\Controller@index1');
 Route::get('/users/chitiet/{id_sp}', 'App\Http\Controllers\Controller@chitiet');
 
+
+//Thêm giỏ hàng
+Route::get('/users/cartadd/{id_sp}', 'App\Http\Controllers\Controller@AddCart')->name("addcart");
+
+Route::post('/cart/add','App\Http\Controllers\BookController@cartadd')->name('cartadd');
+Route::get('/order','App\Http\Controllers\Controller@order')->name('order');
