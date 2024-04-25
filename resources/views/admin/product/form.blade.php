@@ -9,13 +9,27 @@
         @else
             <h1 class="font-weight-bold">Edit product: {{ $data->tensp }} </h1>
         @endif
+
+        @if ($errors->any())
+            <div class="alert alert-warning">
+                <div>
+                    {{ __('Whoops! Something went wrong.') }}
+                </div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.products') }}"><i class="fa fa-arrow-left"></i> Back </a>
             </li>
         </ul>
 
-        <form action="{{ route('admin.product.save', ['action' => $action]) }}" method = 'post' enctype="multipart/form-data">
+        <form action="{{ route('admin.product.save', ['action' => $action]) }}" method = 'post'
+            enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group mb-3 col-sm-12">
                     <label>Name</label>
@@ -127,18 +141,5 @@
             <input type="submit" class="btn btn-primary btn-lg btn-block"
                 value="{{ $action == 'add' ? 'Save' : 'Update' }} this product"> </input>
         </form>
-
-        @if ($errors->any())
-        <div class="alert alert-warning">
-            <div>
-                {{ __('Whoops! Something went wrong.') }}
-            </div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     </div>
 </x-admin-layout>

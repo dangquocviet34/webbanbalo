@@ -4,7 +4,12 @@
     </x-slot>
 
     <h1 class="font-weight-bold"> Accounts </h1>
+
+
     <div class="container">
+        <div class="alert alert-success show" role="alert">
+            <div>{{ session("status") }}</div>
+        </div>
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link active" href="{{ route('admin.account.create') }}"><i class="fa fa-user-plus"></i> Add
