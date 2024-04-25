@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 24, 2024 at 02:49 PM
+-- Generation Time: Apr 25, 2024 at 03:17 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `chitietdonhang` (
   PRIMARY KEY (`id_chitiet`),
   KEY `fk_idsp` (`id_sp`),
   KEY `fk_iddonhang` (`id_donhang`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `chitietdonhang`
@@ -79,14 +79,26 @@ INSERT INTO `chitietdonhang` (`id_chitiet`, `chitiet_soluong`, `chitiet_tonggia`
 (5, 1, 1279200, 20, 2),
 (6, 6, 1659000, 24, 3),
 (7, 1, 276500, 24, 3),
-(8, 4, 0, 53, 2),
-(9, 1, 0, 19, 4),
+(8, 4, 8760000, 53, 2),
+(9, 1, 2200000, 19, 4),
 (10, 1, 1500000, 16, 2),
 (11, 2, 1592000, 25, 5),
-(13, 2, 0, 52, 6),
-(14, 2, 0, 53, 7),
-(15, 1, 0, 19, 7),
-(16, 1, 0, 19, 6);
+(13, 2, 4798000, 52, 6),
+(14, 2, 4380000, 53, 7),
+(15, 1, 2200000, 19, 7),
+(16, 1, 2200000, 19, 6),
+(17, 1, 1399300, 28, 8),
+(18, 1, 1500000, 16, 8),
+(19, 3, 7197000, 52, 8),
+(20, 1, 2399000, 52, 11),
+(21, 2, 4798000, 52, 12),
+(22, 2, 3198000, 54, 13),
+(23, 1, 2399000, 52, 14),
+(24, 1, 1599000, 54, 14),
+(25, 1, 2200000, 19, 14),
+(26, 1, 2905000, 21, 15),
+(27, 1, 1500000, 16, 16),
+(28, 1, 2200000, 19, 17);
 
 -- --------------------------------------------------------
 
@@ -127,7 +139,7 @@ INSERT INTO `discount` (`id_discount`, `id_sanpham`, `discount_value`, `start_da
 
 DROP TABLE IF EXISTS `donhang`;
 CREATE TABLE IF NOT EXISTS `donhang` (
-  `transaction_id` int NOT NULL,
+  `transaction_id` int DEFAULT NULL,
   `id` int NOT NULL AUTO_INCREMENT,
   `slspdh` int NOT NULL DEFAULT '0',
   `amount` decimal(15,2) NOT NULL DEFAULT '0.00',
@@ -136,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `donhang` (
   `id_user` int NOT NULL,
   `address` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 --
 -- Dumping data for table `donhang`
@@ -149,7 +161,17 @@ INSERT INTO `donhang` (`transaction_id`, `id`, `slspdh`, `amount`, `status`, `Ng
 (0, 4, 1, 2200000.00, 0, '2023-08-22 15:56:40', 0, NULL),
 (0, 5, 2, 1990000.00, 0, '2023-10-31 15:56:40', 27, '0'),
 (0, 6, 4, 7393000.00, 0, '2023-07-18 15:57:19', 0, NULL),
-(0, 7, 3, 6580000.00, 1, '2023-08-22 22:50:01', 27, '0');
+(0, 7, 3, 6580000.00, 1, '2023-08-22 22:50:01', 27, '0'),
+(NULL, 8, 5, 11495600.00, 0, '2024-04-25 21:48:38', 29, 'Tiền Giang'),
+(NULL, 9, 0, 0.00, 0, '2024-04-25 21:48:40', 29, 'Tiền Giang'),
+(NULL, 10, 0, 0.00, 0, '2024-04-25 21:48:42', 29, 'Tiền Giang'),
+(NULL, 11, 1, 2399000.00, 0, '2024-04-25 21:50:49', 29, 'Tiền Giang'),
+(NULL, 12, 2, 4798000.00, 2, '2024-04-25 21:52:51', 29, 'Tiền Giang'),
+(NULL, 13, 2, 3198000.00, 1, '2024-04-25 21:56:27', 29, 'Tiền Giang'),
+(NULL, 14, 3, 6198000.00, 1, '2024-04-25 21:57:03', 29, 'Tiền Giang'),
+(NULL, 15, 1, 2905000.00, 1, '2024-04-25 21:59:31', 29, 'Tiền Giang'),
+(NULL, 16, 1, 1500000.00, 1, '2024-04-25 22:00:44', 29, 'Tiền Giang'),
+(NULL, 17, 1, 2200000.00, 1, '2024-04-25 22:02:13', 29, 'Tiền Giang');
 
 -- --------------------------------------------------------
 
@@ -637,21 +659,21 @@ CREATE TABLE IF NOT EXISTS `sanpham` (
 INSERT INTO `sanpham` (`id_sanpham`, `id_catalog`, `id_sub`, `tensp`, `code_product`, `price`, `description`, `content`, `discount`, `image_sp`, `created`, `view`, `xuatxu`, `sizess`, `mausac`, `parent_name_menu`, `parent_name_sub`, `status`, `discount_total`) VALUES
 (16, 25, 2, 'Túi đeo chéo hình thang Philomena Puffy - Kem', '0101', 1875000.0000, '', NULL, 0, 'tui-deo-cheo-1.png', '2023-10-28', 0, 'Mỹ', 'L', 'Kem', 'túi xách', '', 1, 1500000.00),
 (18, 25, 3, 'Túi xách hobo da thật dáng cong Elongated - Đen\r\n', '0176', 2999000.0000, NULL, NULL, NULL, 'tui-xach-1.png', NULL, 0, 'Mỹ', 'M', 'Đen', 'túi xách', '', 1, 2099300.00),
-(19, 25, 3, 'Túi đeo vai nữ da thật phom nửa hình tròn Swing Padlock - Màu Be', '0075', 2200000.0000, NULL, 'Những chi tiết sắc sảo có thể biến những chiếc túi cổ điển trở nên nổi bật và chiếc túi Swing hình lưỡi liềm này là một ví dụ điển hình. Lớp hoàn thiện tông màu be vượt thời gian đi kèm với phần cứng tông vàng, chẳng hạn như chi tiết ổ khóa trên khóa kéo, dây đeo chuỗi xích, giúp tăng thêm vẻ sáng bóng và bắt mắt để thu hút mọi ánh nhìn. Được trang bị khóa kéo mở ra không gian bên trong rộng rãi, chiếc túi này sẽ chứa được nhiều vật dụng cần thiết của bạn. Với kết cấu chần bông sang trọng và những đường nét tinh tế, hãy để chiếc túi xinh xắn này đồng hành cùng bạn trong tất cả các dịp.', NULL, 'tui-xach-2.png', NULL, 0, 'Việt Nam', 'M,L', 'Be', 'túi xách', '', 1, 0.00),
+(19, 25, 3, 'Túi đeo vai nữ da thật phom nửa hình tròn Swing Padlock - Màu Be', '0075', 2200000.0000, NULL, 'Những chi tiết sắc sảo có thể biến những chiếc túi cổ điển trở nên nổi bật và chiếc túi Swing hình lưỡi liềm này là một ví dụ điển hình. Lớp hoàn thiện tông màu be vượt thời gian đi kèm với phần cứng tông vàng, chẳng hạn như chi tiết ổ khóa trên khóa kéo, dây đeo chuỗi xích, giúp tăng thêm vẻ sáng bóng và bắt mắt để thu hút mọi ánh nhìn. Được trang bị khóa kéo mở ra không gian bên trong rộng rãi, chiếc túi này sẽ chứa được nhiều vật dụng cần thiết của bạn. Với kết cấu chần bông sang trọng và những đường nét tinh tế, hãy để chiếc túi xinh xắn này đồng hành cùng bạn trong tất cả các dịp.', NULL, 'tui-xach-2.png', NULL, 0, 'Việt Nam', 'M,L', 'Be', 'túi xách', '', 1, 2200000.00),
 (20, 25, 1, 'Túi đeo vai dáng cong Trice Metallic Accent Belted - Noir', '0185', 1599000.0000, NULL, NULL, NULL, 'tui-xach-tay-1.png', NULL, 0, 'Việt Nam', 'S', 'Đen', 'túi xách', '', 1, 1279200.00),
-(21, 25, 3, 'Túi đeo vai nữ da thât phom nửa hình tròn Swing Padlock - Nhiều màu', '0081', 2905000.0000, NULL, 'Cá tính và sang trọng, chiếc túi Swing hình lưỡi liềm này chắc chắn sẽ tạo được ấn tượng mạnh. Họa tiết nhỏ giọt sắc sảo là tâm điểm của chiếc túi, được đặt trên nền đen để tạo sự tương phản thú vị. Bên cạnh phần cứng tông màu bạc, chi tiết ổ khóa, dây đeo dạng chuỗi táo bạo tạo thêm điểm nhấn cho những đường cong mềm mại của chiếc túi có hình dáng lưỡi liềm. Để tạo ấn tượng, hãy kết hợp túi với phụ kiện màu bạc và boots đế bệt màu đen.', NULL, 'tui-xach-3.png ', NULL, 0, 'Hàn Quốc', 'L,XL', 'Vàng, Đen, Be', 'túi xách', '', 1, 0.00),
-(22, 27, 4, 'Ví Este Belted Quilted - Be', '0145', 1395000.0000, NULL, NULL, NULL, 'vi-1.png', NULL, 0, 'Mỹ', 'S', 'Be', 'túi xách', '', 1, 0.00),
-(23, 27, 5, 'Ví dự tiệc dài phối dây đeo Tallulah Metallic - Hồng burgundy', '0035', 625000.0000, NULL, 'Nắm bắt phong cách lãng mạn của mùa thu với chiếc ví có khóa đẩy kim loại Tallulah. Phần cứng có tông màu vàng nổi bật trên nền ví màu đỏ tía quyến rũ, thiết kế khóa đẩy giúp tăng thêm sự thú vị về mặt hình ảnh đồng thời giữ an toàn cho tất cả các vật dụng có giá trị bên trong. Để thuận tiện khi di chuyển nhiều, hãy biến nó thành một chiếc túi đeo chéo siêu nhỏ với dây đeo dạng chuỗi có thể tháo rời cực kỳ tiện dụng.', NULL, 'vi-4.png', NULL, 0, 'Mỹ', 'M', 'Hồng burgundy', 'balo -ví', '', 1, 0.00),
+(21, 25, 3, 'Túi đeo vai nữ da thât phom nửa hình tròn Swing Padlock - Nhiều màu', '0081', 2905000.0000, NULL, 'Cá tính và sang trọng, chiếc túi Swing hình lưỡi liềm này chắc chắn sẽ tạo được ấn tượng mạnh. Họa tiết nhỏ giọt sắc sảo là tâm điểm của chiếc túi, được đặt trên nền đen để tạo sự tương phản thú vị. Bên cạnh phần cứng tông màu bạc, chi tiết ổ khóa, dây đeo dạng chuỗi táo bạo tạo thêm điểm nhấn cho những đường cong mềm mại của chiếc túi có hình dáng lưỡi liềm. Để tạo ấn tượng, hãy kết hợp túi với phụ kiện màu bạc và boots đế bệt màu đen.', NULL, 'tui-xach-3.png ', NULL, 0, 'Hàn Quốc', 'L,XL', 'Vàng, Đen, Be', 'túi xách', '', 1, 2905000.00),
+(22, 27, 4, 'Ví Este Belted Quilted - Be', '0145', 1395000.0000, NULL, NULL, NULL, 'vi-1.png', NULL, 0, 'Mỹ', 'S', 'Be', 'túi xách', '', 1, 1395000.00),
+(23, 27, 5, 'Ví dự tiệc dài phối dây đeo Tallulah Metallic - Hồng burgundy', '0035', 625000.0000, NULL, 'Nắm bắt phong cách lãng mạn của mùa thu với chiếc ví có khóa đẩy kim loại Tallulah. Phần cứng có tông màu vàng nổi bật trên nền ví màu đỏ tía quyến rũ, thiết kế khóa đẩy giúp tăng thêm sự thú vị về mặt hình ảnh đồng thời giữ an toàn cho tất cả các vật dụng có giá trị bên trong. Để thuận tiện khi di chuyển nhiều, hãy biến nó thành một chiếc túi đeo chéo siêu nhỏ với dây đeo dạng chuỗi có thể tháo rời cực kỳ tiện dụng.', NULL, 'vi-4.png', NULL, 0, 'Mỹ', 'M', 'Hồng burgundy', 'balo -ví', '', 1, 625000.00),
 (24, 27, 4, 'Ví cầm tay nữ chữ nhật Micaela Quilted Phone - Nhiều màu', '0145', 395000.0000, NULL, 'Thành phần chất liệu: Faux leather\r\n\r\nKiểu dáng ví cầm tay nữ phom chữ nhật dáng dài thời trang\r\n\r\nNắp gập đơn giản\r\n\r\nChốt cài kim loại cao cấp\r\n\r\nThiết kế chần bông tinh tế, đẹp mắt\r\n\r\nPhối dây đeo vai chuỗi xích bản nhỏ, có thể tháo rời\r\n\r\nMàu sắc hiện đại, tinh tế, phù hợp để diện nhiều trang phục khác nhau\r\n\r\nKích thước: D3.2 x W19 x H10 (cm)\r\n\r\nXuất xứ thương hiệu: Singapore', NULL, 'vi-2.png', NULL, 0, 'Mỹ', 'S', '', 'balo -ví', '', 1, 276500.00),
 (25, 27, 4, 'Ví ngắn Snap Button - Đen', '0145', 995000.0000, 'Hãy tạm rời xa những chiếc ví cồng kềnh và lựa chọn những chiếc ví nhỏ gọn, linh hoạt để có thể cho vào túi áo khoác của bạn khi đi ra ngoài. Hoàn thiện bằng tông màu đen linh hoạt, chiếc ví này sẽ dễ dàng phối với mọi loại trang phục và phục kiện khác nhau. Ngoài ra, ví được trang bị khóa zip tiện dụng giúp bạn có thể bảo quản mọi vật dụng bên trong an toàn.', NULL, NULL, 'vi-3.png', NULL, 0, 'Mỹ', 'M', 'Đen', 'balo -ví', '', 1, 796000.00),
-(26, 27, 5, 'Ví Dự Tiệc CLU - Màu Bạc', '0028', 1199000.0000, NULL, NULL, NULL, 'vi5.jpg', NULL, 0, NULL, NULL, NULL, 'balo -ví', '', 1, 0.00),
-(27, 25, 0, 'Túi Xách Da Thật SAT - Màu Đỏ', '0154', 2199000.0000, NULL, NULL, NULL, 'tui-xach-5.jpg', NULL, 0, NULL, NULL, NULL, 'balo -ví', '', 1, 0.00),
+(26, 27, 5, 'Ví Dự Tiệc CLU - Màu Bạc', '0028', 1199000.0000, NULL, NULL, NULL, 'vi5.jpg', NULL, 0, NULL, NULL, NULL, 'balo -ví', '', 1, 1199000.00),
+(27, 25, 0, 'Túi Xách Da Thật SAT - Màu Đỏ', '0154', 2199000.0000, NULL, NULL, NULL, 'tui-xach-5.jpg', NULL, 0, NULL, NULL, NULL, 'balo -ví', '', 1, 2199000.00),
 (28, 25, 3, 'Túi Xách Da Thật SAT - Màu Be', '0155', 1999000.0000, NULL, NULL, NULL, 'tui-xach-6.jpg', NULL, 0, NULL, NULL, NULL, 'balo -ví', '', 1, 1399300.00),
-(52, 25, 1, 'Túi xách hình thang Cocoon Curved - Noir', '0185', 2399000.0000, NULL, NULL, NULL, 'tui-xach-tay-2.png', NULL, 0, 'Việt Nam', 'M', 'Đen', 'túi xách', '', 1, 0.00),
-(53, 25, 3, 'Túi xách hobo hình thang Buzz - Trắng', '0081', 2190000.0000, NULL, 'Một chiếc túi hoàn hảo là phải vừa phong cách vừa tiện dụng, và chiếc túi hobo Buzz này đáp ứng được điều đó. Phom túi hình thang với khóa nam châm tiện dụng, mở ra không gian bên trong rộng rãi có thể chứa tất cả những vật dụng cần thiết của bạn và hơn thế nữa. Hoàn thiện bằng tông màu trắng trang nhã, nó sẽ dễ dàng kết hợp với nhiều loại trang phục và nâng tầm bất kỳ diện mạo nào của bạn. Ngoài ra, túi còn đi kèm dây đeo có thể điều chỉnh, bạn có thể dễ dàng tùy chỉnh độ dài để phù hợp với vóc dáng và sở thích của mình.', NULL, 'tui-xach-4.png ', NULL, 0, 'Mỹ ', 'L', 'Trắng', 'túi xách', '', 1, 0.00),
-(54, 25, 1, 'Túi đeo vai dáng cong Anthea Hobo - Đen\r\n', '0185', 1599000.0000, NULL, 'Bạn đang tìm kiếm một người bạn đồng hành mới mẻ và phong cách, không đâu khác ngoài chiếc túi hobo Anthea đẹp mắt này. Với kiểu dáng linh hoạt và gu thẩm mỹ cao, chiếc túi màu đen cổ điển này sẽ dễ dàng bổ sung cho bất kỳ bộ trang phục nào trong tủ đồ của bạn. Tay cầm cong và kiểu dáng mềm mại, thoải mái là những thiết kế đặc trưng của phong cách túi hobo thuần túy. Thiết kế nhiều ngăn nhỏ phía trước giúp bạn có thể tùy ý sắp xếp những vật dụng cá nhân một cách thuận tiện nhất. Ngăn chính được bảo vệ bằng khóa kéo, đảm bảo độ an toàn và bảo mật cho những đồ đạc quan trọng. Dù đeo trên vai hay cầm trên tay, nó đều toát lên vẻ sang trọng và mang hơi hưởng của phong cách Y2K.', NULL, 'tui-xach-5.png', NULL, 0, 'Việt Nam', 'M', 'Đen', 'túi xách', '', 1, 0.00),
-(57, 26, 7, 'Balo Heys Balo Super Tots Spinner Bumble Bee S Yellow', '0124', 600000.0000, 'Chất liệu cao cấp, bền đẹp\r\n\r\n- Chất liệu Polycarbonate composite mang đến độ bền cao, an toàn cho trẻ khi sử dụng\r\n\r\n- Tay cầm chắc chắn cùng đệm lưng thoáng khí \r\n\r\nThiết kế tiện lợi\r\n\r\n- Thiết kế nhỏ gọn giúp trẻ dễ dàng di chuyển trong suốt hành trình\r\n\r\n- Trang bị thêm đai gắn vali phía sau tạo sự thoải mái cho bé khi phải di chuyển liên tục\r\n\r\nMàu sắc tươi sáng, trendy\r\n\r\n- Họa tiết trong sáng, dễ thương vô cùng nổi bật ', NULL, 0, 'balo_con_ong.jpg', NULL, 0, 'Canada', NULL, NULL, '', '', 1, 0.00),
-(56, 26, 7, 'Balo Herschel City Eco Mid Volume Backpack S Ash Rose', '0123', 2499000.0000, 'Đơn giản nhưng không đơn điệu - City Mid Volume giữ mọi thứ ở mức tối giản, hạn chế tất cả sự rườm rà, hướng đến sự thanh lịch, tinh tế trong từng chi tiết nhỏ nhất. \r\n\r\nTương thích với dòng MacBook/Laptop kích thước 14 inch\r\n\r\nDây đeo nam châm gắn chặt với khoá kim loại\r\n\r\nChất liệu vải 100% Fabric tái chế thân thiện với môi trường\r\n\r\nDây đeo vai mỏng, điều chỉnh tuỳ ý\r\n\r\n', NULL, 0, 'balo-unicorn.jpg', NULL, 0, 'Canada', NULL, NULL, '', '', 1, 0.00);
+(52, 25, 1, 'Túi xách hình thang Cocoon Curved - Noir', '0185', 2399000.0000, NULL, NULL, NULL, 'tui-xach-tay-2.png', NULL, 0, 'Việt Nam', 'M', 'Đen', 'túi xách', '', 1, 2399000.00),
+(53, 25, 3, 'Túi xách hobo hình thang Buzz - Trắng', '0081', 2190000.0000, NULL, 'Một chiếc túi hoàn hảo là phải vừa phong cách vừa tiện dụng, và chiếc túi hobo Buzz này đáp ứng được điều đó. Phom túi hình thang với khóa nam châm tiện dụng, mở ra không gian bên trong rộng rãi có thể chứa tất cả những vật dụng cần thiết của bạn và hơn thế nữa. Hoàn thiện bằng tông màu trắng trang nhã, nó sẽ dễ dàng kết hợp với nhiều loại trang phục và nâng tầm bất kỳ diện mạo nào của bạn. Ngoài ra, túi còn đi kèm dây đeo có thể điều chỉnh, bạn có thể dễ dàng tùy chỉnh độ dài để phù hợp với vóc dáng và sở thích của mình.', NULL, 'tui-xach-4.png ', NULL, 0, 'Mỹ ', 'L', 'Trắng', 'túi xách', '', 1, 2190000.00),
+(54, 25, 1, 'Túi đeo vai dáng cong Anthea Hobo - Đen\r\n', '0185', 1599000.0000, NULL, 'Bạn đang tìm kiếm một người bạn đồng hành mới mẻ và phong cách, không đâu khác ngoài chiếc túi hobo Anthea đẹp mắt này. Với kiểu dáng linh hoạt và gu thẩm mỹ cao, chiếc túi màu đen cổ điển này sẽ dễ dàng bổ sung cho bất kỳ bộ trang phục nào trong tủ đồ của bạn. Tay cầm cong và kiểu dáng mềm mại, thoải mái là những thiết kế đặc trưng của phong cách túi hobo thuần túy. Thiết kế nhiều ngăn nhỏ phía trước giúp bạn có thể tùy ý sắp xếp những vật dụng cá nhân một cách thuận tiện nhất. Ngăn chính được bảo vệ bằng khóa kéo, đảm bảo độ an toàn và bảo mật cho những đồ đạc quan trọng. Dù đeo trên vai hay cầm trên tay, nó đều toát lên vẻ sang trọng và mang hơi hưởng của phong cách Y2K.', NULL, 'tui-xach-5.png', NULL, 0, 'Việt Nam', 'M', 'Đen', 'túi xách', '', 1, 1599000.00),
+(57, 26, 7, 'Balo Heys Balo Super Tots Spinner Bumble Bee S Yellow', '0124', 600000.0000, 'Chất liệu cao cấp, bền đẹp\r\n\r\n- Chất liệu Polycarbonate composite mang đến độ bền cao, an toàn cho trẻ khi sử dụng\r\n\r\n- Tay cầm chắc chắn cùng đệm lưng thoáng khí \r\n\r\nThiết kế tiện lợi\r\n\r\n- Thiết kế nhỏ gọn giúp trẻ dễ dàng di chuyển trong suốt hành trình\r\n\r\n- Trang bị thêm đai gắn vali phía sau tạo sự thoải mái cho bé khi phải di chuyển liên tục\r\n\r\nMàu sắc tươi sáng, trendy\r\n\r\n- Họa tiết trong sáng, dễ thương vô cùng nổi bật ', NULL, 0, 'balo_con_ong.jpg', NULL, 0, 'Canada', NULL, NULL, '', '', 1, 600000.00),
+(56, 26, 7, 'Balo Herschel City Eco Mid Volume Backpack S Ash Rose', '0123', 2499000.0000, 'Đơn giản nhưng không đơn điệu - City Mid Volume giữ mọi thứ ở mức tối giản, hạn chế tất cả sự rườm rà, hướng đến sự thanh lịch, tinh tế trong từng chi tiết nhỏ nhất. \r\n\r\nTương thích với dòng MacBook/Laptop kích thước 14 inch\r\n\r\nDây đeo nam châm gắn chặt với khoá kim loại\r\n\r\nChất liệu vải 100% Fabric tái chế thân thiện với môi trường\r\n\r\nDây đeo vai mỏng, điều chỉnh tuỳ ý\r\n\r\n', NULL, 0, 'balo-unicorn.jpg', NULL, 0, 'Canada', NULL, NULL, '', '', 1, 2499000.00);
 
 -- --------------------------------------------------------
 
@@ -701,8 +723,8 @@ CREATE TABLE IF NOT EXISTS `trangthaidonhang` (
 
 INSERT INTO `trangthaidonhang` (`id_status`, `Trang_thai`) VALUES
 (0, 'Đã hủy'),
-(1, 'Đã giao hàng'),
-(2, 'Đang xử lý');
+(1, 'Đang xử lý'),
+(2, 'Đã giao hàng');
 
 -- --------------------------------------------------------
 
@@ -727,7 +749,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `address` varchar(255) DEFAULT NULL,
   `photo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `users`
@@ -740,7 +762,8 @@ INSERT INTO `users` (`id`, `name`, `password`, `remember_token`, `email`, `email
 (4, 'moderator', '', NULL, 'moderator2k3@yopmail.com', NULL, NULL, NULL, '0123456289', 'Web Moderator', 2, 1, '0', ''),
 (26, 'user', '', NULL, 'normaluser2k3@yopmail.com', NULL, NULL, NULL, '0123456788', 'Web User', 3, 1, '0', ''),
 (27, 'user2', '', NULL, 'deactivateduser2k3@yopmail.com', NULL, NULL, NULL, '0123456889', 'Deactivated User', 3, 0, '0', ''),
-(28, 'Huy Dang', '$2y$10$GeYjAwyJi28aGbnWhHROn.JeF0TEChB4XaFSc58t0DERDud5iw3mm', NULL, 'nvviet124@gmail.com', NULL, '2024-04-22 15:35:50', '2024-04-22 15:35:50', '0787863448', NULL, NULL, NULL, 'àdsdsd', '28.png');
+(28, 'Huy Dang', '$2y$10$GeYjAwyJi28aGbnWhHROn.JeF0TEChB4XaFSc58t0DERDud5iw3mm', NULL, 'nvviet124@gmail.com', NULL, '2024-04-22 15:35:50', '2024-04-22 15:35:50', '0787863448', NULL, NULL, NULL, 'àdsdsd', '28.png'),
+(29, 'Huy Dang', '$2y$10$wD2NS2s5IvrFOkDVL0P.d.a1UmkjhPxZeWXN71jXZrePZFmNe65Wq', NULL, 'dqviet142@gmail.com', NULL, '2024-04-24 07:54:54', '2024-04-24 07:54:54', '0123456789', 'Đặng Quốc Việt', NULL, NULL, 'Tiền Giang', NULL);
 
 --
 -- Indexes for dumped tables
