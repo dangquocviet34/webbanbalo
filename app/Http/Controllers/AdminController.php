@@ -57,13 +57,16 @@ class AdminController extends Controller
         DB::update("
                 UPDATE sanpham AS SP
                 LEFT JOIN discount AS DC ON SP.id_sanpham = DC.id_sanpham
-                SET SP.discount_total = ROUND(
+                SET SP.discount_total =
                     CASE
-                        WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date THEN SP.price * (100 - DC.discount_value) / 100
+                        WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL AND DC.discount_value > 0
+                        THEN ROUND(SP.price * (100 - DC.discount_value) / 100)
+                        WHEN DC.discount_value IS NULL
+                        THEN SP.price
                         ELSE SP.price
                     END
-                )
-                WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL
+                WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL OR DC.id_sanpham IS NULL;
+        
             ");
 
 
@@ -114,7 +117,7 @@ class AdminController extends Controller
         $data = DB::select("SELECT * FROM donhang as DH JOIN trangthaidonhang as TT ON DH.status = TT.id_status ORDER BY DH.Ngay_dat_hang DESC");
         $count = 0;
         // dd($data);
-        return view('admin.qldonhang', compact("data", "count"));
+        return view('admin.statistics', compact("data", "count"));
     }
     //Hủy đơn hàng
     public function huydonhang(Request $request)
@@ -249,7 +252,6 @@ class AdminController extends Controller
 
     public function product_save($action, Request $request)
     {
-        error_log($action);
         $request->validate([
             'id_catalog' => ['required', 'numeric', 'max:50'],
             'id_sub' => ['required', 'numeric', 'max:50'],
@@ -277,7 +279,7 @@ class AdminController extends Controller
         }
 
         $message = "";
-        if ($action == "add"){
+        if ($action == "add") {
             error_log('$data');
             DB::table("sanpham")->insert($data);
             error_log('Code run here');
@@ -299,23 +301,47 @@ class AdminController extends Controller
         $users = DB::table('users')->join('roles', 'users.role_id', '=', 'roles.id')->select('users.*', 'roles.description')->orderBy('users.role_id')->get();
         return view('admin.accounts', ['users' => $users]);
     }
+
     public function account_create()
     {
         $roles = DB::table('roles')->get();
         $action = "add";
+
         return view('admin.account.form', ['roles' => $roles, 'action' => $action]);
     }
+
+    public function account_edit(Request $request)
+    {
+        $id = $request->id;
+        $account = DB::table('users')->where('id', $id)->get();
+        $roles = DB::table('roles')->get();
+        $action = "edit";
+        return view('admin.account.form', ['data' => $account[0], 'roles' => $roles, 'action' => $action]);
+    }
+
     public function account_save($action, Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:50'],
-            'username' => ['required', 'string', 'max:50'],
-            'phone' => ['required', 'string', 'max:200'],
-            'email' => ['required', 'string', 'max:50'],
-            'status' => ['required', 'string', 'max:200'],
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'status' => ['required', 'string', 'max:255'],
+            'photo' => ['required', 'image'],
 
         ]);
-        $data = $request->except("_token");
+
+        $data['name'] = $request->input('name');
+        $data['password'] = $request->input('password');
+        $data['email'] = $request->input('email');
+        $data['phone'] = $request->input('phone');
+        $data['role_id'] = $request->input('role_id');
+        $data['status'] = $request->input('status');
+        if ($request->hasFile("")) {
+            $fileName = $request->input("name") . "_" . rand(1000000, 9999999) . '.' . $request->file('photo')->extension();
+            $request->file('photo')->storeAs('public/images', $fileName);
+            $data['photo'] = $fileName;
+        }
         $message = "";
         if ($action == "add") {
             DB::table("users")->insert($data);
@@ -325,7 +351,7 @@ class AdminController extends Controller
             DB::table("users")->where("id", $id)->update($data);
             $message = "Cập nhật thành công";
         }
-        return redirect()->route('account_profile')->with('status', $message);
+        return redirect()->route('admin.accounts')->with('status', $message);
     }
     public function roles()
     {
