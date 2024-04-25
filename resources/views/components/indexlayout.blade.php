@@ -481,7 +481,13 @@
 							<li><a href="#">My Account</a></li>
 							<li><a href="#">My Wishlist</a></li>
 							<li><a href="#">Compare</a></li>
-							<li><a href="#">Checkout</a></li>
+							<li>
+								<form action="{{ url('/vnpay_payment') }}" method="POST">
+									@csrf
+									<!-- Cái dòng dưới này để tính tổng của đơn hàng để nó tự hiện giá tiền cần thanh toán-->
+									<!--<input type="hidden" name="total_vnpay" value="Cái biến tính tổng nha">-->
+								<button type="submit" name="redirect">CHECKOUT VNPAY</a></li>
+								</form>
 							<li><a href="#">Login</a></li>
 						</ul>
 					</div>
