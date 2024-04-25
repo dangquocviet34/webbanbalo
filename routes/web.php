@@ -36,7 +36,7 @@ Route::get('/admin', function () {
     return redirect('/admin/dashboard');
 });
 Route::get('/admin/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('admin.dashboard');
-Route::get('/admin/statistics', 'App\Http\Controllers\AdminController@statistics')->name('admin.statistics');
+Route::get('/admin/statistics', 'App\Http\Controllers\AdminController@qldonhang')->name('admin.statistics');
 Route::get('/admin/products', 'App\Http\Controllers\AdminController@products')->name('admin.products');
 Route::get('/admin/promotions', 'App\Http\Controllers\AdminController@promotions')->name('admin.promotions');
 Route::get('/admin/accounts', 'App\Http\Controllers\AdminController@accounts')->name('admin.accounts');
@@ -44,7 +44,8 @@ Route::get('/admin/roles', 'App\Http\Controllers\AdminController@roles')->name('
 Route::get('/admin/permissions', 'App\Http\Controllers\AdminController@permissions')->name('admin.permissions');
 Route::get('/admin/settings', 'App\Http\Controllers\AdminController@settings')->name('admin.settings');
 
-Route::get('/admin/statistics/filter-by-date', 'App\Http\Controllers\AdminController@filter_by_date');
+Route::post('/admin/statistics/filter-by-date', 'App\Http\Controllers\AdminController@filter_by_date');
+Route::post('/admin/dashboard/filter-by-date', 'App\Http\Controllers\AdminController@filter_by_date');
 
 Route::get('/admin/account/profile', 'App\Http\Controllers\AdminController@account_profile')->name('admin.account.profile');
 Route::get('/admin/account/edit', 'App\Http\Controllers\AdminController@account_edit')->name('admin.account.edit');
@@ -94,3 +95,9 @@ Route::get('/users/cartadd/{id_sp}', 'App\Http\Controllers\Controller@AddCart')-
 
 Route::post('/cart/add','App\Http\Controllers\BookController@cartadd')->name('cartadd');
 Route::get('/order','App\Http\Controllers\Controller@order')->name('order');
+
+Route::post('/save-cart','App\Http\Controllers\Controller@save_cart_ajax')->name('save_cart_ajax');
+Route::post('/add-cart-ajax','App\Http\Controllers\Controller@add_cart_ajax')->name('add-cart-ajax');
+Route::get('/giohang','App\Http\Controllers\Controller@giohang')->name('giohang');
+Route::get('/delete_cart/{session_id}','App\Http\Controllers\Controller@delete_cart')->name('delete_cart');
+Route::post('/order/create','App\Http\Controllers\Controller@ordercreate')->middleware(['auth'])->name('ordercreate');

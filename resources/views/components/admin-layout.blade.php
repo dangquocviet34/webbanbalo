@@ -127,7 +127,7 @@
                     <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                     <ul class="menu-list">
                         <li><a href="{{ url('/admin/dashboard') }}"><b>Dashboard</b></a></li>
-                        <li><a href="{{ url('admin/statistics') }}"><b>Statistics</b></a></li>
+                        <li><a href="{{ url('/admin/statistics') }}"><b>Statistics</b></a></li>
                         <li><a href="{{ url('admin/products') }}"><b>Products</b></a></li>
                         <li><a href="{{ url('admin/promotions') }}"><b>Promotions</b></a></li>
                         <li><a href="{{ url('/admin/accounts') }}"><b>User Accounts</b></a></li>
@@ -147,7 +147,7 @@
         <!-- container -->
         <div class="container">
             <!-- row -->
-            <div class="row" wi>
+            <div class="row" >
                 {{ $slot }}
             </div>
         </div>

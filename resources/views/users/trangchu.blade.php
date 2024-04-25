@@ -165,6 +165,14 @@
 							@foreach ($group as $discount)
 							<!-- Product Single -->
 							<div class="product product-single" style="height:30%">
+							<form >
+										@csrf
+										<input type="hidden" value="{{$discount->id_sanpham}}" class="cart_product_id_{{$discount->id_sanpham}}">
+										<input type="hidden" value="{{$discount->tensp}}" class="cart_product_name_{{$discount->id_sanpham}}">
+										<input type="hidden" value="{{$discount->image_sp}}" class="cart_product_image_{{$discount->id_sanpham}}">
+										<input type="hidden" value="{{$discount->discount_total}}" class="cart_product_price_{{$discount->id_sanpham}}">
+										<input type="hidden" value="1" class="cart_product_qty_{{$discount->id_sanpham}}">
+
 								<div class="product-thumb">
 									<div class="product-label">
 										<span>New</span>
@@ -191,10 +199,10 @@
 									<div class="product-btns">
 										<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 										<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-										<a href="{{url('/users/cartadd/'.$discount->id_sanpham)}}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
-										
+										<button type="button" class="primary-btn add-to-cart" data-id_product="{{$discount->id_sanpham}}" name="add-to-cart"><i class="fa fa-shopping-cart" ></i> Add to Car </button>
+										</div>
 									</div>
-								</div>
+									</form>
 							</div>
 							@endforeach
 							<!-- /Product Single -->
@@ -260,6 +268,14 @@
 								@foreach ($balo_Vi as $row)
 									<!-- Product Single -->
 									<div class="product product-single">
+									<form >
+										@csrf
+										<input type="hidden" value="{{$row->id_sanpham}}" class="cart_product_id_{{$row->id_sanpham}}">
+										<input type="hidden" value="{{$row->tensp}}" class="cart_product_name_{{$row->id_sanpham}}">
+										<input type="hidden" value="{{$row->image_sp}}" class="cart_product_image_{{$row->id_sanpham}}">
+										<input type="hidden" value="{{$row->discount_total}}" class="cart_product_price_{{$row->id_sanpham}}">
+										<input type="hidden" value="1" class="cart_product_qty_{{$row->id_sanpham}}">
+
 										<div class="product-thumb">
 											<div class="product-label">
 												<span>New</span>
@@ -281,9 +297,10 @@
 											<div class="product-btns">
 												<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 												<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-												<a href="{{url('/users/cartadd/'.$row->id_sanpham)}}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
-											</div>
+												<button type="button" class="primary-btn add-to-cart" data-id_product="{{$row->id_sanpham}}" name="add-to-cart"><i class="fa fa-shopping-cart" ></i> Add to Car </button>
 										</div>
+									</div>
+									</form>
 									</div>
 									<!-- /Product Single -->
 								@endforeach
@@ -497,6 +514,15 @@
 						<!-- Product Single -->
 						<div class="col-md-3 col-sm-6 col-xs-6">
 							<div class="product product-single">
+							<form >
+										@csrf
+										<input type="hidden" value="{{$tuixach->id_sanpham}}" class="cart_product_id_{{$tuixach->id_sanpham}}">
+										<input type="hidden" value="{{$tuixach->tensp}}" class="cart_product_name_{{$tuixach->id_sanpham}}">
+										<input type="hidden" value="{{$tuixach->image_sp}}" class="cart_product_image_{{$tuixach->id_sanpham}}">
+										<input type="hidden" value="{{$tuixach->discount_total}}" class="cart_product_price_{{$tuixach->id_sanpham}}">
+										<input type="hidden" value="1" class="cart_product_qty_{{$tuixach->id_sanpham}}">
+
+
 								<div class="product-thumb">
 									<div class="product-label">
 										<span>New</span>
@@ -518,9 +544,10 @@
 									<div class="product-btns">
 										<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 										<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-										<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+										<button type="button" class="primary-btn add-to-cart" data-id_product="{{$tuixach->id_sanpham}}" name="add-to-cart"><i class="fa fa-shopping-cart" ></i> Add to Car </button>
+										</div>
 									</div>
-								</div>
+									</form>
 							</div>
 						</div>
 						<!-- /Product Single -->
