@@ -9,17 +9,17 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Validator;
-
-
-
+use Svg\Tag\Rect;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function index(){
+        
         
         $banner = DB::table('banner')->get();
 
@@ -61,52 +61,7 @@ class Controller extends BaseController
 
     
 
-    //Giỏ hàng
-    // public function cartadd(Request $request)
-    // {
-    //     // Kiểm tra dữ liệu gửi từ form
-    //     $request->validate([
-    //         'id_sanpham' => 'required|numeric',
-    //         'num' => 'required|numeric',
-    //     ]);
     
-    //     $id_sp = $request->id_sanpham;
-    //     $num = $request->num;
-    //     $total = 0;
-    //     $cart = [];
-    
-    //     if(session()->has('cart')) {
-    //         $cart = session()->get('cart');
-    //         if(isset($cart[$id_sp])) {
-    //             $cart[$id_sp] += $num;
-    //         } else {
-    //             $cart[$id_sp] = $num;
-    //         }
-    //     } else {
-    //         $cart[$id_sp] = $num;
-    //     }
-    
-    //     session()->put('cart', $cart);
-    //     dd($cart);
-    //     // return count($cart);
-    // }
-    
-//Nháp
-        //     public function AddCart(Request $request, $id_sp)
-        // {
-        //     $product = DB::table('sanpham')->where('id_sanpham', $id_sp)->first();
-        //     if($product!=null){
-        //         $oldCart= Session('Cart') ? Session('Cart') : null;
-        //         $newCart = new Cart($oldCart);
-        //         $newCart ->AddCart($product, $id_sp);
-        //         dd($newCart);
-
-        //         $request->session()->put('Cart', $newCart);
-        //         return view("index");
-                
-        //     }
-           
-        // }
         public function addCart(Request $request, $id_sp)
         {
             // Kiểm tra session 'cart' trước khi sử dụng
@@ -134,6 +89,189 @@ class Controller extends BaseController
             }
         }
 
+        //Xử lý session giỏ hàng
+        public function add_cart_ajax(Request $request){
+            $data = $request->all();
+            $session_id = substr(md5(microtime()), rand(0,26),5);
+            $cart = session()->get('cart');
+            
+            // Kiểm tra nếu giỏ hàng không rỗng
+            if($cart){
+                $is_available = false;
+                
+                // Duyệt qua các sản phẩm trong giỏ hàng
+                foreach($cart as $key => $item){
+                    // Nếu sản phẩm đã tồn tại trong giỏ hàng
+                    if($item['product_id'] == $data['cart_product_id']){
+                        // Tăng số lượng sản phẩm lên 1
+                        $cart[$key]['product_qty'] += 1;
+                        $is_available = true;
+                        break;
+                    }
+                }
+                
+                // Nếu sản phẩm chưa tồn tại trong giỏ hàng
+                if(!$is_available){
+                    $cart[] = [
+                        'session_id' => $session_id,
+                        'product_name' => $data['cart_product_name'],
+                        'product_id' => $data['cart_product_id'],
+                        'product_image' => $data['cart_product_image'],
+                        'product_qty' => $data['cart_product_qty'],
+                        'product_price' => $data['cart_product_price'],
+                    ];
+                }
+            }else{
+                // Nếu giỏ hàng rỗng
+                $cart[] = [
+                    'session_id' => $session_id,
+                    'product_name' => $data['cart_product_name'],
+                    'product_id' => $data['cart_product_id'],
+                    'product_image' => $data['cart_product_image'],
+                    'product_qty' => $data['cart_product_qty'],
+                    'product_price' => $data['cart_product_price'],
+                ];
+            }
+            
+            // Cập nhật giỏ hàng trong session
+            session()->put('cart', $cart);
+            
+            // Trả về số lượng sản phẩm trong giỏ hàng sau khi xử lý
+            return response()->json(['cart_count' => count($cart)]);
+        }
+
+        
+        //save cart
+        public function save_cart_ajax(Request $request){
+
+
+        }
+
+        //Giỏ hàng
+        public function giohang(){
+            $cart = session()->get('cart', []); // Lấy thông tin giỏ hàng từ session, nếu không có thì gán một mảng rỗng
+    
+            $data = [];
+            $quantity = [];
+            
+            $list_product = "";
+            foreach ($cart as $item) {
+                $quantity[$item['product_id']] = $item['product_qty'];
+                $list_product .= $item['product_id'] . ", ";
+            }
+            $list_product = rtrim($list_product, ", "); // Loại bỏ dấu phẩy cuối cùng
+        
+            // Lấy thông tin chi tiết của các sản phẩm trong giỏ hàng từ cơ sở dữ liệu
+            $data = DB::table("sanpham")->whereIn('id_sanpham', explode(',', $list_product))->get();
+            
+          
+            // dd($cart, $data, $quantity);
+            
+            return view("users.giohang", compact("quantity", "data", "cart"));
+        }
+
+        //Xóa giỏ hàng
+        public function delete_cart($session_id){
+            $cart = session::get('cart');
+
+            if($cart==true){
+                foreach($cart as $key => $val){
+                    if($val['session_id']==$session_id){
+                        unset($cart[$key]);
+                    }
+                }
+                session::put('cart', $cart);
+                return redirect()->back()->with('message','Xóa thành công');
+            }
+            else{
+                return redirect()->back()->with('message','Xóa thất bại');
+            }
+        }
+
+        //Xác nhận mua hàng
+        public function ordercreate(Request $request){
+    
+            // Lấy session "cart"
+            $cart = session()->get('cart');
+        
+            // Kiểm tra xem $cart có tồn tại và có phải là mảng không
+            if (!empty($cart) && is_array($cart)) {
+                $chitietdonhang = [];
+                
+                // Khởi tạo biến tổng số lượng và tổng giá
+                $totalQuantity = 0;
+                $totalAmount = 0;
+                
+                // Bắt đầu một giao dịch database
+                DB::beginTransaction();
+                
+                try {
+                    $order = [
+                        "Ngay_dat_hang" => DB::raw("now()"),
+                        "status" => 0,
+                        "id_user" => Auth::user()->id
+                    ];
+                    
+                    // Thêm thông tin đơn hàng vào bảng đơn hàng
+                    $id_don_hang = DB::table("donhang")->insertGetId($order);
+        
+                    foreach ($cart as $item) {
+                        // Tính tổng giá tiền cho mỗi sản phẩm
+                        $totalPrice = $item['product_qty'] * $item['product_price'];
+        
+                        // Thêm thông tin chi tiết đơn hàng của mỗi sản phẩm vào mảng
+                        $chitietdonhang[] = [
+                            'chitiet_soluong' => $item['product_qty'],
+                            'chitiet_tonggia' => $totalPrice,
+                            'id_sp' => $item['product_id'],
+                            'id_donhang' => $id_don_hang,
+                        ];
+        
+                        // Cập nhật tổng số lượng sản phẩm và tổng giá
+                        $totalQuantity += $item['product_qty'];
+                        $totalAmount += $totalPrice;
+                    }
+        
+                    // Cập nhật số lượng và tổng giá vào bảng don_hang
+                    DB::table('donhang')
+                        ->where('id', $id_don_hang)
+                        ->update([
+                            'slspdh' => $totalQuantity,
+                            'amount' => $totalAmount
+                        ]);
+        
+                    // Thêm thông tin chi tiết đơn hàng vào bảng chi tiết đơn hàng
+                    DB::table('chitietdonhang')->insert($chitietdonhang);
+        
+                    // Commit giao dịch nếu mọi thứ diễn ra thành công
+                    DB::commit();
+        
+                    // Xóa session "cart" sau khi đã cập nhật vào cơ sở dữ liệu
+                    session()->forget('cart');
+        
+                    // Redirect hoặc trả về view tùy vào logic của ứng dụng
+                } catch (\Exception $e) {
+                    // Nếu có lỗi xảy ra, rollback giao dịch và xử lý lỗi
+                    DB::rollback();
+                    // In ra thông báo lỗi hoặc xử lý lỗi theo nhu cầu của bạn
+                    dd($e->getMessage());
+                }
+            } else {
+                // Xử lý khi $cart không tồn tại hoặc không phải là mảng
+                dd("Session 'cart' không tồn tại hoặc không phải là một mảng.");
+            }
+            return redirect()->route('giohang')->with('success', 'Đặt hàng thành công!');
+            
+        
+        }
+
+        
+       
+
+
+            
+ }
+
         
 
- }
+ 

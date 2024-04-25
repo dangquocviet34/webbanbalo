@@ -57,13 +57,16 @@ class AdminController extends Controller
         DB::update("
                 UPDATE sanpham AS SP
                 LEFT JOIN discount AS DC ON SP.id_sanpham = DC.id_sanpham
-                SET SP.discount_total = ROUND(
+                SET SP.discount_total =
                     CASE
-                        WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date THEN SP.price * (100 - DC.discount_value) / 100
+                        WHEN DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL AND DC.discount_value > 0
+                        THEN ROUND(SP.price * (100 - DC.discount_value) / 100)
+                        WHEN DC.discount_value IS NULL
+                        THEN SP.price
                         ELSE SP.price
                     END
-                )
-                WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL
+                WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL OR DC.id_sanpham IS NULL;
+        
             ");
 
 
@@ -114,7 +117,7 @@ class AdminController extends Controller
         $data = DB::select("SELECT * FROM donhang as DH JOIN trangthaidonhang as TT ON DH.status = TT.id_status ORDER BY DH.Ngay_dat_hang DESC");
         $count = 0;
         // dd($data);
-        return view('admin.qldonhang', compact("data", "count"));
+        return view('admin.statistics', compact("data", "count"));
     }
     //Hủy đơn hàng
     public function huydonhang(Request $request)

@@ -27,35 +27,12 @@
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}" />
+	
+
+	<!-- Sweetalert Css -->
+	<link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Import jQuery -->
-	<script>
-	
-    function addCart(id_sp) {
-        $.ajax({
-            url: "/users/cartadd/" + id_sp,
-            type: 'GET', // Thêm dấu phẩy ở cuối dòng này
-        }).done(function(response) {
-            //console.log(response);
-           
-				// Lấy chuỗi HTML từ phản hồi JSON
-			var cartHtml = response.cart_html;
-			// Loại bỏ các ký tự \r\n từ chuỗi HTML
-			cartHtml = cartHtml.replace(/(\r\n|\n|\r)/gm, "");
-
-
-
-			// Thay thế nội dung của phần tử có id là "shopping-cart" bằng chuỗi HTML mới
-			$("#shopping-cart1").html(cartHtml);
-        }).fail(function(xhr, status, error) {
-            console.error(error);
-        });
-    }
-
-
-
-
-</script>
 	
 </head>
 <style>
@@ -233,7 +210,13 @@
 						<a class="dropdown-toggle" data-toggle="dropdown" >
 							<div class="header-btns-icon">
 								<i class="fa fa-shopping-cart"></i>
-								<span class="qty">3</span>
+								<span class="qty" id="cart-number-product">
+								@if (session('cart'))
+									{{count(session('cart'))}}
+								@else
+									0
+								@endif
+								</span>
 							</div>
 							<strong class="text-uppercase">Giỏ hàng:</strong>
 							<br>
@@ -242,32 +225,11 @@
 						
 						<div class="custom-menu">
 							<div id="shopping-cart1">
-								<div class="shopping-cart-list">
-									<div class="product product-widget">
-										<div class="product-thumb">
-											<img src="./img/thumb-product01.jpg" alt="">
-										</div>
-										<div class="product-body">
-											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-										</div>
-										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-									</div>
-									<div class="product product-widget">
-										<div class="product-thumb">
-											<img src="./img/thumb-product01.jpg" alt="">
-										</div>
-										<div class="product-body">
-											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-										</div>
-										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-									</div>
-								</div>
+								
 								
 
 								<div class="shopping-cart-btns">
-									<button class="main-btn">View Cart</button>
+									<a href="{{asset('/giohang')}}"><button class="main-btn">View Cart</button></a>
 									<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
 								</div>
 							</div>
@@ -578,18 +540,57 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/slick.min.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/jquery.zoom.min.js"></script>
-	<script src="js/main.js"></script>
-	
-	
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/slick.min.js') }}"></script>
+	<script src="{{ asset('js/nouislider.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
 
+	<!-- Jquery sweetalert -->
+	<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.add-to-cart').click(function(){
+				var id= $(this).data('id_product');
+				var cart_product_id = $('.cart_product_id_'+ id).val();
+				var cart_product_name = $('.cart_product_name_'+ id).val();
+				var cart_product_price = $('.cart_product_price_'+ id).val();
+				var cart_product_image = $('.cart_product_image_'+ id).val();
+				var cart_product_qty = $('.cart_product_qty_'+ id).val();
+				var _token = $('input[name="_token"]').val();
 
+				// alert(cart_product_price);
+				$.ajax({
+					url: '/add-cart-ajax',
+					method: "POST",
+					data: {cart_product_id:cart_product_id, cart_product_name:cart_product_name, cart_product_image:cart_product_image,
+						cart_product_price:cart_product_price, cart_product_qty:cart_product_qty,
+						_token:_token},
+					success: function(data) {
+							// Hiển thị thông báo thành công
+							swal("Good job!", "Bạn đã thêm sản phẩm vào giỏ hàng!", "success");
 
+							// Cập nhật số lượng sản phẩm trong giỏ hàng
+							$('#cart-number-product').text(data.cart_count);
+
+							// Cập nhật nội dung của phần tử giỏ hàng với nội dung mới từ view blade
+							$('#shopping-cart1').html(data.cart_html);
+							
+						},
+						error: function(xhr, status, error) { // Xử lý khi có lỗi xảy ra
+               			 console.error('Đã xảy ra lỗi: ' + error);
+                // Xử lý lỗi nếu cần
+            }
+				
+				});
+
+		
+		});
+	});
+
+	</script>
 </body>
 
 	
