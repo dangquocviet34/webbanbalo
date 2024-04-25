@@ -18,6 +18,68 @@
 ::after {
   --tw-content: '';
 }
+/* Laravel Breeze Register Page CSS */
+
+/* Auth Card */
+.auth-card {
+  margin: 0 auto;
+  max-width: 24rem;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(34, 50, 84, 0.03);
+}
+
+/* Auth Logo */
+.auth-card img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  max-width: 10rem;
+}
+
+/* Auth Form Inputs */
+.auth-card input {
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  border: 1px solid #d2d6dc;
+  border-radius: 0.375rem;
+  width: 100%;
+}
+
+/* Auth Form Label */
+.auth-card label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Auth Form Button */
+.auth-card button {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background-color: #4f46e5;
+}
+
+/* Auth Form Links */
+.auth-card a {
+  margin-top: 0.5rem;
+  color: #6366f1;
+  text-decoration: none;
+}
+
+.auth-card a:hover {
+  text-decoration: underline;
+}
+
 
 /*
 1. Use a consistent sensible line-height in all browsers.
@@ -28,6 +90,7 @@
 6. Use the user's configured `sans` font-variation-settings by default.
 7. Disable tap highlights on iOS
 */
+
 
 html,
 :host {
