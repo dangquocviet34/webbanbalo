@@ -208,7 +208,7 @@ class Controller extends BaseController
                 try {
                     $order = [
                         "Ngay_dat_hang" => DB::raw("now()"),
-                        "status" => 0,
+                        "status" => 2,
                         "id_user" => Auth::user()->id
                     ];
                     
