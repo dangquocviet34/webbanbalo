@@ -9,10 +9,10 @@
         }
     </style>
     <div class="container">
-        <h1>{{ $product->tensp }}</h1>
+        <h1 class="font-weight-bold">{{ $product->tensp }}</h1>
         <div class='info'>
             <div>
-                <img src="{{ asset('images/' . $product->image_sp) }}" width="200px">
+                <img src="{{ asset('images/' . $product->image_sp) }}" width="300px">
             </div>
             <div>
                 <strong>Name: </strong> {{ $product->tensp }}</br>

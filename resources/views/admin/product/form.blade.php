@@ -3,19 +3,6 @@
         Product Create
     </x-slot>
 
-    @if ($errors->any())
-        <div style='color:red; margin:0 auto'>
-            <div>
-                {{ __('Whoops! Something went wrong.') }}
-            </div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="container">
         @if ($action == 'add')
             <h1 class="font-weight-bold"> Add a new product </h1>
@@ -28,7 +15,7 @@
             </li>
         </ul>
 
-        <form action="{{ route('admin.product.save', ['action' => $action]) }}" method = 'post'>
+        <form action="{{ route('admin.product.save', ['action' => $action]) }}" method = 'post' enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group mb-3 col-sm-12">
                     <label>Name</label>
@@ -135,10 +122,23 @@
                     @endif
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-save"></i>
-                {{ $action == 'add' ? 'Save' : 'Update' }} this product
-            </button>
             {{ csrf_field() }}
+
+            <input type="submit" class="btn btn-primary btn-lg btn-block"
+                value="{{ $action == 'add' ? 'Save' : 'Update' }} this product"> </input>
         </form>
+
+        @if ($errors->any())
+        <div class="alert alert-warning">
+            <div>
+                {{ __('Whoops! Something went wrong.') }}
+            </div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     </div>
 </x-admin-layout>

@@ -3,32 +3,28 @@
         Account Create
     </x-slot>
 
-    @if ($errors->any())
-        <div style='color:red; margin:0 auto'>
-            <div>
-                {{ __('Whoops! Something went wrong.') }}
-            </div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="container">
         @if ($action == 'add')
-            <h1 class="font-weight-bold"> Add a new account </h1>
+            <h1 class="font-weight-bold">Add a new account </h1>
         @else
-            <h1 class="font-weight-bold">Modify account information</h1>
+            <h1 class="font-weight-bold">Modify account: {{ $data->fullname }}</h1>
         @endif
+
+        @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
+
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.accounts') }}"><i class="fa fa-arrow-left"></i> Back </a>
             </li>
         </ul>
 
-        <form action="{{ route('admin.account.save', ['action' => $action]) }}" method = 'post'>
+        <form action="{{ route('admin.account.save', ['action' => $action]) }}" method="post"
+            enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group mb-3 col-sm-4">
                     <label>Name</label>
@@ -77,8 +73,8 @@
 
                 <div class="form-group mb-3 col-sm-4">
                     <label>Password</label>
-                    <input type='text' class='form-control form-control-lg' name='password' placeholder="Enter Password"
-                        value="{{ $data->password ?? '' }}">
+                    <input type='text' class='form-control form-control-lg' name='password'
+                        placeholder="Enter Password" value="{{ $data->password ?? '' }}">
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Role</label>
@@ -107,14 +103,28 @@
                     @endif
                 </div>
             </div>
+
+            {{ csrf_field() }}
             <div class="row">
                 <div class="form-group mb-3 col-sm-12">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-save"></i> Save this
-                        account </button>
+                    <input type="submit" class="btn btn-primary btn-lg btn-block"
+                        value="{{ $action == 'add' ? 'Save' : 'Update' }} this account"></input>
                 </div>
             </div>
+        </form>
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div>
+                    {{ __('Whoops! Something went wrong.') }}
+                </div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
     </div>
-    {{ csrf_field() }}
-    </form>
-    </div>
+
 </x-admin-layout>
