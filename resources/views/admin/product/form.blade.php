@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Origin</label>
-                    <input type='text' class='form-control form-control-lg' name='origin' placeholder="Origin"
+                    <input type='text' class='form-control form-control-lg' name='xuatxu' placeholder="Origin"
                         value="{{ $data->xuatxu ?? '' }}">
                 </div>
                 <div class="form-group mb-3 col-sm-4">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Color</label>
-                    <input type='text' class='form-control form-control-lg' name='color' placeholder="Color"
+                    <input type='text' class='form-control form-control-lg' name='mausac' placeholder="Color"
                         value="{{ $data->mausac ?? '' }}">
                 </div>
                 <div class="form-group mb-3 col-sm-4">
@@ -137,7 +137,7 @@
                 </div>
             </div>
             {{ csrf_field() }}
-
+            <input type='hidden' name='id' value='{{ $data->id ?? ""}}'>
             <input type="submit" class="btn btn-primary btn-lg btn-block"
                 value="{{ $action == 'add' ? 'Save' : 'Update' }} this product"> </input>
         </form>

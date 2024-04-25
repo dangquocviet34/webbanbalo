@@ -255,26 +255,10 @@ class AdminController extends Controller
 
     public function product_save($action, Request $request)
     {
-        $request->validate([
-            'id_catalog' => ['required', 'numeric', 'max:50'],
-            'id_sub' => ['required', 'numeric', 'max:50'],
-            'ten_sp' => ['required', 'string', 'max:100'],
-            'code_product' => ['required', 'string', 'max:10'],
-            'price' => ['required', 'numeric'],
-            'description' => ['nullable', 'string', 'max:300'],
-            'content' => ['nullable', 'string', 'max:300'],
-            'discount' => ['nullable', 'string', 'max:200'],
-            'image_sp' => ['nullable', 'image'],
-            'xuatxu' => ['nullable', 'string', 'max:200'],
-            'sizess' => ['nullable', 'string', 'max:200'],
-            'mausac' => ['nullable', 'string', 'max:200'],
-            'status' => ['required', 'numeric', 'max:10'],
-
-        ]);
         $data = $request->except("_token");
 
         if ($action == "edit")
-            $data = $request->except("_token", "id");
+            $data = $request->except("_token","id");
         if ($request->hasFile("")) {
             $fileName = $request->input("tensp") . "_" . rand(1000000, 9999999) . '.' . $request->file('image_sp')->extension();
             $request->file('image_sp')->storeAs('public/images', $fileName);
@@ -288,8 +272,7 @@ class AdminController extends Controller
             error_log('Code run here');
             $message = "Thêm thành công";
         } else if ($action == "edit") {
-            $id = $request->id;
-            DB::table("sanpham")->where("id", $id)->update($data);
+            DB::table("sanpham")->where("code_product", $data['code_product'])->update($data);
             $message = "Cập nhật thành công";
         }
         return redirect()->route('admin.products')->with('status', $message);
@@ -366,17 +349,19 @@ class AdminController extends Controller
             $message = "Thêm thành công";
         } else if ($action == "edit") {
 
-            DB::table('users')->where('name', $data['name'])->update(array(
-                'name' => $data['name'],
-                'password' => $data['password'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'fullname' => $data['fullname'],
-                'status' => $data['status'],
-                'role_id' => $data['role_id'],
-                'address' => $data['address'],
-                'photo' => $data['photo']
-            ));
+            DB::table('users')->where('name', $data['name'])->update(
+                array(
+                    'name' => $data['name'],
+                    'password' => $data['password'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'fullname' => $data['fullname'],
+                    'status' => $data['status'],
+                    'role_id' => $data['role_id'],
+                    'address' => $data['address'],
+                    'photo' => $data['photo']
+                )
+            );
             $message = "Cập nhật thành công";
         }
         return redirect()->route('admin.accounts')->with($message);
