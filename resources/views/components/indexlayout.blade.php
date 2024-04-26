@@ -160,16 +160,21 @@
 						<div class='col-3 p-0 d-flex justify-content-end'>
 							@auth
 								<div class="dropdown">
+									
 									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 									{{ Auth::user()->name }}
 									</button>
 									<div class="dropdown-menu">
-									<a class="dropdown-item" href="{{route('account')}}">Quản lý</a>
+									<a class="dropdown-item" href="{{route('account')}}">Tài khoản</a>
 									<form method="POST" action="{{ route('logout') }}">
 										@csrf
 										<a class="dropdown-item" onclick="event.preventDefault();
 															this.closest('form').submit();">Đăng xuất</a>
 									</form>
+									@if(Auth::user()->role_id==1)
+										<a class="dropdown-item" href="{{url('/admin')}}">Quản lý cửa hàng</a>
+									 
+									@endif	
 									</div>
 								</div>
 							@else 

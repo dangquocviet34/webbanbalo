@@ -10,12 +10,13 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Variable;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Validator;
 use Svg\Tag\Rect;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class Controller extends BaseController
 {
@@ -213,7 +214,7 @@ class Controller extends BaseController
                 try {
                     $order = [
                         "Ngay_dat_hang" => DB::raw("now()"),
-                        "status" => 2,
+                        "status" => 1,
                         "id_user" => Auth::user()->id
                     ];
                     
@@ -252,8 +253,9 @@ class Controller extends BaseController
                     DB::commit();
                     //Gửi mail xác nhận
                      // Dữ liệu bạn muốn truyền vào view
+                    
                     $auth = auth()->user();
-                    Mail::send('users.send_mail',compact ('cart','auth'), function($message) use ($auth){
+                    Mail::send('users.send_mail',compact ('cart','auth','totalQuantity', 'totalAmount','totalPrice'), function($message) use ($auth){
                         $message->subject('ĐẶT HÀNG THÀNH CÔNG');
                         $message->to($auth->email,$auth->name); //Tiêu đề của mail
                     });
@@ -359,6 +361,12 @@ class Controller extends BaseController
             //return redirect('/')->with('message','');
 
         
+        }
+
+        public Function cart(Request $request){
+            $cart = session::get('cart');
+            dd($cart);
+
         }
 
         

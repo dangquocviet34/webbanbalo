@@ -55,6 +55,8 @@ Route::get('/giohang','App\Http\Controllers\Controller@giohang')->name('giohang'
 Route::get('/delete_cart/{session_id}','App\Http\Controllers\Controller@delete_cart')->name('delete_cart');
 Route::post('/order/create','App\Http\Controllers\Controller@ordercreate')->middleware(['auth'])->name('ordercreate');
 
+
+
 // Thanh toán VnPay
 Route::post('/vnpay_payment','App\Http\Controllers\UserController@vnpay_payment');
 

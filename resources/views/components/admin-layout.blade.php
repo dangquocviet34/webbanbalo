@@ -92,21 +92,24 @@
                 </div>
                 <div class="pull-right">
                     <ul class="header-btns">
+                    @auth
                         <!-- /Account -->
                         <li class="header-account dropdown default-dropdown">
                             <div class="dropdown-toggle" role="button" data-toggle="dropdown-menu" aria-expanded="true">
                                 <div class="header-btns-icon">
                                     <i class="fa fa-user-o"></i>
                                 </div>
-                                <strong class="text-uppercase">Võ Thị Bảo Xuyên </strong>
+                                
+                                <strong class="text-uppercase">{{ Auth::user()->name }}</strong>
                             </div>
-                            <strong><i class="fa fa-diamond"></i><a href="{{ url('account') }}"
+                            <strong><i class="fa fa-diamond"></i><a href="{{ route('account') }}"
                                 class="text-uppercase"> Administrator</a></strong>
                             <div class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/') }}"><i class="fa fa-sign-out"></i>Exit Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
                             </div>
                         </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
