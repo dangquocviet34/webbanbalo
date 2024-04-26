@@ -19,8 +19,10 @@
 @endif
         <form method = 'post' action="{{route('saveinfo')}}" enctype="multipart/form-data" style='width:30%; margin:0 auto'>
         <div style='text-align:center;font-weight:bold;color:#15c;'>CẬP NHẬT THÔNG TIN CÁ NHÂN </div>
-        <label>Tên</label>
+        <label>Username</label>
         <input type='text' class='form-control form-control-sm' name='name' value="{{$user->name}}">
+        <label>Họ tên</label>
+        <input type='text' class='form-control form-control-sm' name='fullname' value="{{$user->fullname}}">
         <label>Email</label>
         <input type='text' class='form-control form-control-sm' name='email' value="{{$user->email}}">
         <label>Số điện thoại</label>

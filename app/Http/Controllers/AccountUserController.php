@@ -16,6 +16,7 @@ class AccountUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string'],
             'address' => ['required', 'string', 'max:255'],
@@ -26,6 +27,7 @@ class AccountUserController extends Controller
         $data["phone"] = $request->input("phone");
         $data["email"] = $request->input("email");
         $data["address"] = $request->input("address");
+        $data["fullname"] = $request->input("fullname");
         if($request->hasFile("photo"))
         {
             //Tạo tên file bằng cách lấy id của người dùng ghép với phần mở rộng của hình ảnh

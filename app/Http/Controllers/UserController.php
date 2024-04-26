@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
 use Illuminate\Support\Facades\Redirect;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 session_start();
 
 class UserController extends Controller
