@@ -34,17 +34,6 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Import jQuery -->
 	
-	<!-- jQuery Plugins -->
-	<script src="{{ asset('js/jquery.min.js') }}"></script>
-	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('js/slick.min.js') }}"></script>
-	<script src="{{ asset('js/nouislider.min.js') }}"></script>
-	<script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
-	<script src="{{ asset('js/main.js') }}"></script>
-
-	<!-- Jquery sweetalert -->
-	<script src="{{ asset('js/sweetalert.min.js') }}"></script>
-	
 </head>
 <style>
 	.header-btns-container {
@@ -492,7 +481,13 @@
 							<li><a href="#">My Account</a></li>
 							<li><a href="#">My Wishlist</a></li>
 							<li><a href="#">Compare</a></li>
-							<li><a href="#">Checkout</a></li>
+							<li>
+								<form action="{{ url('/vnpay_payment') }}" method="POST">
+									@csrf
+									<!-- Cái dòng dưới này để tính tổng của đơn hàng để nó tự hiện giá tiền cần thanh toán-->
+									<!--<input type="hidden" name="total_vnpay" value="Cái biến tính tổng nha">-->
+								<button type="submit" name="redirect">CHECKOUT VNPAY</a></li>
+								</form>
 							<li><a href="#">Login</a></li>
 						</ul>
 					</div>
@@ -550,6 +545,16 @@
 	</footer>
 	<!-- /FOOTER -->
 
+	<!-- jQuery Plugins -->
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/slick.min.js') }}"></script>
+	<script src="{{ asset('js/nouislider.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
+
+	<!-- Jquery sweetalert -->
+	<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
