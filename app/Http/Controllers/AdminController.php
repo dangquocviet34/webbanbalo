@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\FuncCall;
@@ -14,6 +15,8 @@ use App\ChiTietDonHang; // Import model ChiTietDonHang
 use App\SanPham; // Import model SanPham
 use App\Discount;
 use App\Models\DonHang as ModelsDonHang;
+use Redirect;
+use Validator;
 
 class AdminController extends Controller
 {
@@ -66,7 +69,7 @@ class AdminController extends Controller
                         ELSE SP.price
                     END
                 WHERE DC.start_date <= CURRENT_DATE() AND DC.end_date IS NOT NULL OR DC.id_sanpham IS NULL;
-        
+
             ");
 
 
@@ -252,26 +255,10 @@ class AdminController extends Controller
 
     public function product_save($action, Request $request)
     {
-        $request->validate([
-            'id_catalog' => ['required', 'numeric', 'max:50'],
-            'id_sub' => ['required', 'numeric', 'max:50'],
-            'ten_sp' => ['required', 'string', 'max:100'],
-            'code_product' => ['required', 'string', 'max:10'],
-            'price' => ['required', 'numeric'],
-            'description' => ['nullable', 'string', 'max:300'],
-            'content' => ['nullable', 'string', 'max:300'],
-            'discount' => ['nullable', 'string', 'max:200'],
-            'image_sp' => ['nullable', 'image'],
-            'xuatxu' => ['nullable', 'string', 'max:200'],
-            'sizess' => ['nullable', 'string', 'max:200'],
-            'mausac' => ['nullable', 'string', 'max:200'],
-            'status' => ['required', 'numeric', 'max:10'],
-
-        ]);
         $data = $request->except("_token");
 
         if ($action == "edit")
-            $data = $request->except("_token", "id");
+            $data = $request->except("_token","id");
         if ($request->hasFile("")) {
             $fileName = $request->input("tensp") . "_" . rand(1000000, 9999999) . '.' . $request->file('image_sp')->extension();
             $request->file('image_sp')->storeAs('public/images', $fileName);
@@ -285,8 +272,7 @@ class AdminController extends Controller
             error_log('Code run here');
             $message = "Thêm thành công";
         } else if ($action == "edit") {
-            $id = $request->id;
-            DB::table("sanpham")->where("id", $id)->update($data);
+            DB::table("sanpham")->where("code_product", $data['code_product'])->update($data);
             $message = "Cập nhật thành công";
         }
         return redirect()->route('admin.products')->with('status', $message);
@@ -319,39 +305,73 @@ class AdminController extends Controller
         return view('admin.account.form', ['data' => $account[0], 'roles' => $roles, 'action' => $action]);
     }
 
+    public function account_profile(Request $request)
+    {
+        $id = $request->id;
+        $account = DB::table('users')->where('id', $id)->get();
+        $roles = DB::table('roles')->where('id', $account[0]->role_id)->get();
+        $action = "edit";
+        return view('admin.account.profile', ['data' => $account[0], 'role' => $roles[0]->description, 'action' => $action]);
+    }
+
     public function account_save($action, Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'status' => ['required', 'string', 'max:255'],
-            'photo' => ['required', 'image'],
-
+            'username' => ['nullable', 'string', 'max:50'],
+            'password' => ['nullable', 'string', 'max:50'],
+            'email' => ['nullable', 'string', 'max:50'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'fullname' => ['nullable', 'string', 'max:50'],
+            'status' => ['nullable', 'numeric', 'max:10'],
+            'role_id' => ['nullable', 'numeric', 'max:10'],
+            'address' => ['nullable', 'string', 'max:200'],
+            'photo' => ['nullable', 'image'],
         ]);
+        $data['name'] = $request['username'];
+        $data['password'] = $request['password'];
+        $data['email'] = $request['email'];
+        $data['phone'] = $request['phone'];
+        $data['fullname'] = $request['fullname'];
+        $data['status'] = $request['status'];
+        $data['role_id'] = $request['role_id'];
+        $data['address'] = $request['address'];
 
-        $data['name'] = $request->input('name');
-        $data['password'] = $request->input('password');
-        $data['email'] = $request->input('email');
-        $data['phone'] = $request->input('phone');
-        $data['role_id'] = $request->input('role_id');
-        $data['status'] = $request->input('status');
         if ($request->hasFile("")) {
             $fileName = $request->input("name") . "_" . rand(1000000, 9999999) . '.' . $request->file('photo')->extension();
             $request->file('photo')->storeAs('public/images', $fileName);
             $data['photo'] = $fileName;
+        } else {
+            $data['photo'] = "default.jpg";
         }
         $message = "";
         if ($action == "add") {
             DB::table("users")->insert($data);
             $message = "Thêm thành công";
         } else if ($action == "edit") {
-            $id = $request->id;
-            DB::table("users")->where("id", $id)->update($data);
+
+            DB::table('users')->where('name', $data['name'])->update(
+                array(
+                    'name' => $data['name'],
+                    'password' => $data['password'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'fullname' => $data['fullname'],
+                    'status' => $data['status'],
+                    'role_id' => $data['role_id'],
+                    'address' => $data['address'],
+                    'photo' => $data['photo']
+                )
+            );
             $message = "Cập nhật thành công";
         }
-        return redirect()->route('admin.accounts')->with('status', $message);
+        return redirect()->route('admin.accounts')->with($message);
+    }
+
+    public function account_delete(Request $request)
+    {
+        $id = $request->id;
+        DB::table('users')->where('id', '=', $id)->delete();
+        return redirect()->route('admin.accounts')->with('status', "Xóa thành công");
     }
     public function roles()
     {
