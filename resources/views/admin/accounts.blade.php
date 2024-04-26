@@ -4,7 +4,12 @@
     </x-slot>
 
     <h1 class="font-weight-bold"> Accounts </h1>
+
+
     <div class="container">
+        <div class="alert alert-success show" role="alert">
+            <div>{{ session("status") }}</div>
+        </div>
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link active" href="{{ route('admin.account.create') }}"><i class="fa fa-user-plus"></i> Add
@@ -51,9 +56,9 @@
                         <td class="col-md-2">
                             <form method='post' action = "{{ route('admin.account.delete') }}"
                                 onsubmit="return confirm('Do you really want to delete this account?');">
-                                <a href="{{ route('admin.account.profile', $user->id) }}" class="btn btn-primary"><i
+                                <a href="{{ route('admin.account.profile', ['id' => $user->id]) }}" class="btn btn-primary"><i
                                         class="fa fa-eye"></i></a>
-                                <a href="{{ route('admin.account.edit', $user->id) }}" class="btn btn-success"><i
+                                <a href="{{ route('admin.account.edit', ['id' => $user->id]) }}" class="btn btn-success"><i
                                         class="fa fa-edit"></i></a>
                                 <input type='hidden' value='{{ $user->id }}' name='id'>
                                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>

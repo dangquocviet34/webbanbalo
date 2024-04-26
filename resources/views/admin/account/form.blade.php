@@ -3,32 +3,40 @@
         Account Create
     </x-slot>
 
-    @if ($errors->any())
-        <div style='color:red; margin:0 auto'>
-            <div>
-                {{ __('Whoops! Something went wrong.') }}
-            </div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="container">
         @if ($action == 'add')
-            <h1 class="font-weight-bold"> Add a new account </h1>
+            <h1 class="font-weight-bold">Add a new account </h1>
         @else
-            <h1 class="font-weight-bold">Modify account information</h1>
+            <h1 class="font-weight-bold">Modify account: {{ $data->fullname }}</h1>
         @endif
+
+        @if (session('status'))
+            <div class="alert alert-success show" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <div>
+                    {{ __('Whoops! Something went wrong.') }}
+                </div>
+                <ul> 1
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.accounts') }}"><i class="fa fa-arrow-left"></i> Back </a>
             </li>
         </ul>
 
-        <form action="{{ route('admin.account.save', ['action' => $action]) }}" method = 'post'>
+        <form action="{{ route('admin.account.save', ['action' => $action]) }}" method="post"
+            enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group mb-3 col-sm-4">
                     <label>Name</label>
@@ -59,7 +67,7 @@
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Status</label>
-                    <select name="status" class="form-control form-control-lg">
+                    <select name="status" class="form-control form-control-lg" aria-label="status-slt">
                         <option value=""disabled>---Select Status---</option>
                         @php
                             $selected = isset($data->status) ? $data->status : '';
@@ -77,12 +85,12 @@
 
                 <div class="form-group mb-3 col-sm-4">
                     <label>Password</label>
-                    <input type='text' class='form-control form-control-lg' name='password' placeholder="Enter Password"
-                        value="{{ $data->password ?? '' }}">
+                    <input type='text' class='form-control form-control-lg' name='password'
+                        placeholder="Enter Password" value="{{ $data->password ?? '' }}">
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Role</label>
-                    <select name="role_id" class="form-control form-control-lg">
+                    <select name="role_id" class="form-control form-control-lg" aria-label="role-slt">
                         <option value=""disabled selected>---Select Role---</option>
                         @php
                             $selected = isset($data->role_id) ? $data->role_id : '';
@@ -95,7 +103,7 @@
                     </select>
                 </div>
                 <div class="form-group mb-3 col-sm-4">
-                    <label>Profile Image</label><br>
+                    <label for="photo">Profile Image</label><br>
                     @if ($action == 'edit')
                         <input type="file" name="photo" id="photo" accept="image/*" class="form-control-file"
                             class='mb-3'>
@@ -109,12 +117,12 @@
             </div>
             <div class="row">
                 <div class="form-group mb-3 col-sm-12">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-save"></i> Save this
-                        account </button>
+                    <input type="submit" class="btn btn-primary btn-lg btn-block"
+                        value="{{ $action == 'add' ? 'Save' : 'Update' }} this account"></input>
                 </div>
             </div>
+            {{ csrf_field() }}
+        </form>
     </div>
-    {{ csrf_field() }}
-    </form>
-    </div>
+
 </x-admin-layout>
