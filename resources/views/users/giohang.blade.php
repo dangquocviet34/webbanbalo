@@ -35,7 +35,8 @@
                         
                         @auth
                             @if(count($data)>0)
-                            <form method='post' action="{{url('/order/create')}}">
+                            <form action="{{ route('ordercreate') }}" method="POST">
+                            <!--<form method='post' action="{{url('/order/create')}}">-->
                                 <table class="shopping-cart-table table">
                                     <thead>
                                         <tr>
@@ -107,7 +108,10 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <input class="pull-right primary-btn" type='submit' class='btn btn-sm btn-primary mt-1' value='ĐẶT HÀNG'>
+									<!-- Cái dòng dưới này để tính tổng của đơn hàng để nó tự hiện giá tiền cần thanh toán-->
+								<input type="hidden" name="total_vnpay" value="{{ $tongTien }}">
+								<input class="pull-right primary-btn" type="submit" name="redirect" class='btn btn-sm btn-primary mt-1' value='ĐẶT HÀNG'>
+                                <!--<input class="pull-right primary-btn" type='submit' class='btn btn-sm btn-primary mt-1' value='ĐẶT HÀNG'>-->
                                 {{ csrf_field() }}
                             </form>
                             @else
