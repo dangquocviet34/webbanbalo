@@ -57,7 +57,7 @@ class Controller extends BaseController
           WHERE SP.id_sanpham = ?",[$id_sp]);
            
             return view("users.chitiet", compact("data"));        
-            }
+        }
 
     
 

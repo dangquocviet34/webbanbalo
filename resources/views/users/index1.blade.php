@@ -27,7 +27,7 @@
 											<span>New</span>
 											
 										</div>
-										<a href="{{url('users/chitiet/'.$sanpham->id_sanpham)}}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button></a>
+										<a href="{{url('users/chitiet/'.$sanpham->id_sanpham)}}" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
 										<img src="{{asset('images/'.$sanpham->image_sp)}}" alt="">
 									</div>
 									<div class="product-body">
