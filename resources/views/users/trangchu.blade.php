@@ -183,7 +183,7 @@
 										<li><span>00 M</span></li>
 										<li><span>00 S</span></li>
 									</ul>
-									<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
+									<a href="{{url('users/chitiet/'.$discount->id_sanpham)}}" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
 									<img src="{{asset('images/'.$discount->image_sp)}}" alt="{{$discount->parent_name_sub}}" >
 								</div>
 								<div class="product-body" >
@@ -281,7 +281,7 @@
 												<span>New</span>
 												<span class="sale"></span>
 											</div>
-											<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
+											<a href="{{url('users/chitiet/'.$row->id_sanpham)}}" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
 											<img src="{{asset('images/'.$row->image_sp)}}" alt="">
 										</div>
 										<div class="product-body">
@@ -528,7 +528,7 @@
 										<span>New</span>
 										
 									</div>
-									<a href=""><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button></a>
+									<a href="{{url('users/chitiet/'.$tuixach->id_sanpham)}}" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
 									<img src="{{asset('images/'.$tuixach->image_sp)}}" alt="">
 								</div>
 								<div class="product-body">
