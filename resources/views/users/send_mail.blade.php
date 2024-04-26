@@ -78,7 +78,7 @@
                                         <a>Hong canh sen</a>
                                     </td>
                                     <td class="product-discount">
-                                        <a>{{ $item['product_price']}}</a>
+                                        <a>{{number_format((float) $item['product_price'],0,",",".")}}đ</a>
                                     </td>
                                    
                                     <td>
@@ -97,7 +97,7 @@
                     </table>
                     
                     <br>
-                    <h4>TỔNG TIỀN: {{$totalAmount}}</h4>
+                    <h4>TỔNG TIỀN: {{number_format((float)$totalAmount,0,",",".")}}đ</h4>
                     -----------------------------------------------------
                     <br>
                     <i>Mọi thắc mắc về đơn hàng quý khách vui lòng liên hệ đến 018008 ! Một lần nữa cảm ơn quý khách
