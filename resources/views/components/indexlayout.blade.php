@@ -34,6 +34,17 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Import jQuery -->
 	
+	<!-- jQuery Plugins -->
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/slick.min.js') }}"></script>
+	<script src="{{ asset('js/nouislider.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
+
+	<!-- Jquery sweetalert -->
+	<script src="{{ asset('js/sweetalert.min.js') }}"></script>
+	
 </head>
 <style>
 	.header-btns-container {
@@ -539,16 +550,6 @@
 	</footer>
 	<!-- /FOOTER -->
 
-	<!-- jQuery Plugins -->
-	<script src="{{ asset('js/jquery.min.js') }}"></script>
-	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('js/slick.min.js') }}"></script>
-	<script src="{{ asset('js/nouislider.min.js') }}"></script>
-	<script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
-	<script src="{{ asset('js/main.js') }}"></script>
-
-	<!-- Jquery sweetalert -->
-	<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
