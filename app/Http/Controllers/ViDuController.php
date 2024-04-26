@@ -28,11 +28,11 @@ class ViDuController extends Controller
       echo "ƯERWW";
     }
     //gửi mail xác nhận
-    public function SendMail(){
+    /*public function SendMail(){
       $auth = Auth::guard('cus')->user();
     Mail::send('emails.send', compact('donhang','auth'), function($email) use($auth) {
       $email -> subject('G Shop - XÁC NHẬN ĐƠN HÀNG');
       $email -> to($auth->email, $auth->name);
     });
-    }
+    }*/
 }
