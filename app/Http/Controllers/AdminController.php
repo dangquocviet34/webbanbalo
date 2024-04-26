@@ -184,7 +184,7 @@ class AdminController extends Controller
         GROUP BY DH.id, DH.amount,P.tensp, P.mausac, P.sizess,  CT.chitiet_tonggia,P.discount_total,  CT.chitiet_soluong", [$id]);
 
 
-        $pdf = PDF::loadView('pdf.hoadon', compact("dataKH", "datasanpham"));
+        $pdf = PDF::loadView('pdf.hoadon', compact("dataKH", "datasanpham", "id"));
 
         return $pdf->download('hoadon.pdf');
         // return view("pdf.hoadon", compact("dataKH","datasanpham"));
