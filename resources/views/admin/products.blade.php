@@ -40,7 +40,7 @@
                 @foreach ($products as $product)
                     <tr>
                         <td class="col-md-1">
-                            <img src="{{ asset('images/' . $product->image_sp) }}" width="40px" height="40px" />
+                            <img src="{{ asset('storage/images/' . $product->image_sp) }}" width="40px" height="40px" />
                         </td>
                         <td class="col-md-3">
                             <b>{{ $product->tensp }}</b><br>

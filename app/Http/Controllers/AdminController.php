@@ -259,11 +259,13 @@ class AdminController extends Controller
 
         if ($action == "edit")
             $data = $request->except("_token","id");
-        if ($request->hasFile("")) {
-            $fileName = $request->input("tensp") . "_" . rand(1000000, 9999999) . '.' . $request->file('image_sp')->extension();
-            $request->file('image_sp')->storeAs('public/images', $fileName);
-            $data['image_sp'] = $fileName;
-        }
+            if ($request->hasFile('image_sp')) {
+                $fileName = $request->input("name") . "_sp" . rand(1000000, 9999999) . '.' . $request->file('image_sp')->extension();
+                $request->file('image_sp')->storeAs('public/images', $fileName);
+                $data['image_sp'] = $fileName;
+            } else {
+                $data['image_sp'] = "default.jpg";
+            }
 
         $message = "";
         if ($action == "add") {
@@ -316,17 +318,6 @@ class AdminController extends Controller
 
     public function account_save($action, Request $request)
     {
-        $request->validate([
-            'username' => ['nullable', 'string', 'max:50'],
-            'password' => ['nullable', 'string', 'max:50'],
-            'email' => ['nullable', 'string', 'max:50'],
-            'phone' => ['nullable', 'string', 'max:50'],
-            'fullname' => ['nullable', 'string', 'max:50'],
-            'status' => ['nullable', 'numeric', 'max:10'],
-            'role_id' => ['nullable', 'numeric', 'max:10'],
-            'address' => ['nullable', 'string', 'max:200'],
-            'photo' => ['nullable', 'image'],
-        ]);
         $data['name'] = $request['username'];
         $data['password'] = $request['password'];
         $data['email'] = $request['email'];
@@ -336,8 +327,8 @@ class AdminController extends Controller
         $data['role_id'] = $request['role_id'];
         $data['address'] = $request['address'];
 
-        if ($request->hasFile("")) {
-            $fileName = $request->input("name") . "_" . rand(1000000, 9999999) . '.' . $request->file('photo')->extension();
+        if ($request->hasFile('photo')) {
+            $fileName = $request->input("name") . "_acc" . rand(1000000, 9999999) . '.' . $request->file('photo')->extension();
             $request->file('photo')->storeAs('public/images', $fileName);
             $data['photo'] = $fileName;
         } else {

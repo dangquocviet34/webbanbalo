@@ -41,7 +41,7 @@
                 <div class="form-group mb-3 col-sm-4">
                     <label>Product Code</label>
                     <input type='text' class='form-control form-control-lg' name='code_product'
-                        placeholder="Product Code" value="{{ $data->code_product ?? '' }}">
+                        placeholder="Product Code" value="{{ $data->code_product ?? '' }}" >
                 </div>
                 <div class="form-group mb-3 col-sm-4">
                     <label>Origin</label>
@@ -137,7 +137,6 @@
                 </div>
             </div>
             {{ csrf_field() }}
-            <input type='hidden' name='id' value='{{ $data->id ?? ""}}'>
             <input type="submit" class="btn btn-primary btn-lg btn-block"
                 value="{{ $action == 'add' ? 'Save' : 'Update' }} this product"> </input>
         </form>
