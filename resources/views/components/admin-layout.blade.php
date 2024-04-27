@@ -99,7 +99,7 @@
                                 <div class="header-btns-icon">
                                     <i class="fa fa-user-o"></i>
                                 </div>
-                                
+
                                 <strong class="text-uppercase">{{ Auth::user()->name }}</strong>
                             </div>
                             <strong><i class="fa fa-diamond"></i><a href="{{ route('account') }}"
